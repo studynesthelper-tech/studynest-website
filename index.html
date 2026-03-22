@@ -3,625 +3,816 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- ── SEO ── -->
-  <title>StudyNest — AI Study Planner & Focus Chrome Extension | Stop Procrastinating</title>
-  <meta name="description" content="StudyNest is the AI-powered Chrome extension that tells you what to study, blocks distractions, and tracks your progress. Used by 50,000+ students. Free to install." />
-  <meta name="keywords" content="AI study planner, Chrome extension, focus app, stop procrastinating, study tools, pomodoro timer, flashcards, highlight summarize, student productivity" />
+  <title>StudyNest — AI Study Chrome Extension | Focus, Highlight & Learn Smarter</title>
+  <meta name="description" content="StudyNest is a free Chrome extension with AI study tools: focus mode, smart highlights, flashcards, pomodoro timer & progress tracking. Used by 50,000+ students." />
+  <meta name="keywords" content="chrome extension, AI study tool, focus mode, highlight extension, flashcards, pomodoro, study planner, student productivity" />
   <link rel="canonical" href="https://studynest.app/" />
-
-  <!-- ── Open Graph ── -->
-  <meta property="og:type"        content="website" />
-  <meta property="og:url"         content="https://studynest.app/" />
-  <meta property="og:title"       content="StudyNest — AI Study System for Students" />
-  <meta property="og:description" content="Plan, focus, and track your study sessions with AI. The Chrome extension that replaces procrastination with progress." />
-  <meta property="og:image"       content="https://studynest.app/og-image.png" />
-  <meta name="twitter:card"       content="summary_large_image" />
-  <meta name="twitter:title"      content="StudyNest — AI Study Planner Chrome Extension" />
-  <meta name="twitter:description" content="Stop procrastinating. Start studying smarter with AI." />
-
-  <!-- ── Structured Data ── -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "StudyNest",
-    "operatingSystem": "Chrome",
-    "applicationCategory": "EducationalApplication",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-    "description": "AI-powered study planner and focus Chrome extension for students.",
-    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "2847" }
-  }
-  </script>
-
-  <!-- ── Fonts ── -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://studynest.app/" />
+  <meta property="og:title" content="StudyNest — AI Study Chrome Extension" />
+  <meta property="og:description" content="The Chrome extension that makes studying actually work. Free." />
+  <meta property="og:image" content="assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"StudyNest","operatingSystem":"Chrome","applicationCategory":"EducationalApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"2847"}}</script>
+  <link rel="icon" type="image/png" href="assets/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Cabinet+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-  <!-- ══════════════════════════════════════════════
-       STICKY NAV
-  ══════════════════════════════════════════════ -->
-  <header class="nav" id="nav">
-    <div class="nav-inner">
-      <a href="/" class="nav-logo" aria-label="StudyNest Home">
-        <span class="nav-logo-icon">🪺</span>
-        <span>StudyNest</span>
-      </a>
-      <nav class="nav-links" aria-label="Primary navigation">
-        <a href="#features">Features</a>
-        <a href="#how">How it works</a>
-        <a href="#reviews">Reviews</a>
-        <a href="#premium">Premium</a>
-      </nav>
-      <a href="#install" class="btn btn-nav">Add to Chrome — Free</a>
-    </div>
-  </header>
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="assets/icon.png" alt="StudyNest" class="nav-icon" onerror="this.style.display='none'" />
+      <span>Study<em>Nest</em></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#screenshots">Screenshots</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#pricing">Pricing</a>
+    </nav>
+    <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener" class="btn btn-nav">
+      <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><path d="M10 2C5.58 2 2 5.58 2 10s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.4A6.4 6.4 0 113.6 10 6.4 6.4 0 0110 16.4z" fill="currentColor" opacity=".4"/><path d="M10 3.6a6.4 6.4 0 016.4 6.4H10V3.6z" fill="currentColor"/><path d="M10 10l-4.4 7.6A6.4 6.4 0 013.6 10H10z" fill="currentColor" opacity=".7"/><path d="M10 10l4.4 7.6a6.4 6.4 0 01-8.8 0L10 10z" fill="currentColor" opacity=".5"/></svg>
+      Add to Chrome
+    </a>
+  </div>
+</header>
 
-  <main>
+<main>
 
-    <!-- ══════════════════════════════════════════════
-         HERO
-    ══════════════════════════════════════════════ -->
-    <section class="hero" id="home" aria-label="Hero section">
-      <div class="hero-bg">
-        <div class="hero-orb hero-orb-1"></div>
-        <div class="hero-orb hero-orb-2"></div>
-        <div class="hero-grid"></div>
-      </div>
-
-      <div class="container hero-inner">
-        <div class="hero-badge reveal">
-          <span class="hero-badge-dot"></span>
-          Trusted by 50,000+ students worldwide
-        </div>
-
-        <h1 class="hero-h1 reveal reveal-delay-1">
-          Stop Procrastinating.<br />
-          <em>Start Studying Smarter.</em>
-        </h1>
-
-        <p class="hero-sub reveal reveal-delay-2">
-          The AI-powered Chrome extension that tells you <strong>what to study</strong>,
-          keeps you <strong>laser-focused</strong>, and shows you <strong>exactly how far you've come</strong>.
-        </p>
-
-        <div class="hero-cta reveal reveal-delay-3">
-          <a href="#install" class="btn btn-primary btn-lg" id="install">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect width="20" height="20" rx="4" fill="white" fill-opacity=".15"/><path d="M10 4v8m0 0l-3-3m3 3l3-3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 14v1a1 1 0 001 1h10a1 1 0 001-1v-1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
-            Add to Chrome — It's Free
-          </a>
-          <span class="hero-cta-note">No account needed · Works in seconds</span>
-        </div>
-
-        <div class="hero-stats reveal reveal-delay-4">
-          <div class="stat">
-            <strong>50K+</strong>
-            <span>Active users</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat">
-            <strong>4.9 ★</strong>
-            <span>Chrome store</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat">
-            <strong>100%</strong>
-            <span>Free to start</span>
-          </div>
-        </div>
-
-        <!-- Mock UI -->
-        <div class="hero-ui reveal reveal-delay-4" aria-label="StudyNest app preview">
-          <div class="ui-window">
-            <div class="ui-titlebar">
-              <div class="ui-dots"><span></span><span></span><span></span></div>
-              <div class="ui-title">StudyNest</div>
-            </div>
-            <div class="ui-body">
-              <div class="ui-sidebar">
-                <div class="ui-nav-item ui-active">🏠 Dashboard</div>
-                <div class="ui-nav-item">🖍️ Highlights</div>
-                <div class="ui-nav-item">🃏 Flashcards</div>
-                <div class="ui-nav-item">⏱ Pomodoro</div>
-                <div class="ui-nav-item">🤖 AI Chat</div>
-                <div class="ui-nav-item">📊 Progress</div>
-              </div>
-              <div class="ui-main">
-                <div class="ui-greeting">Good afternoon, Alex 👋</div>
-                <div class="ui-level">
-                  <div class="ui-level-badge">🎓 Lv.7 Scholar</div>
-                  <div class="ui-xp-bar"><div class="ui-xp-fill" style="width:68%"></div></div>
-                  <span class="ui-xp-label">680 / 1000 XP</span>
-                </div>
-                <div class="ui-cards-row">
-                  <div class="ui-card ui-card-focus">
-                    <div class="ui-card-icon">🎯</div>
-                    <div class="ui-card-label">Focus Session</div>
-                    <div class="ui-card-val">25:00</div>
-                  </div>
-                  <div class="ui-card">
-                    <div class="ui-card-icon">🔥</div>
-                    <div class="ui-card-label">Day Streak</div>
-                    <div class="ui-card-val">14</div>
-                  </div>
-                  <div class="ui-card">
-                    <div class="ui-card-icon">✅</div>
-                    <div class="ui-card-label">Tasks Done</div>
-                    <div class="ui-card-val">8/12</div>
-                  </div>
-                </div>
-                <div class="ui-ai-bubble">
-                  <span class="ui-ai-avatar">🤖</span>
-                  <div class="ui-ai-text">You have a Biology exam in 3 days. I suggest reviewing Chapter 5 now — you haven't touched it in a week.</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="ui-glow"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══════════════════════════════════════════════
-         PROBLEM
-    ══════════════════════════════════════════════ -->
-    <section class="problem" aria-labelledby="problem-heading">
-      <div class="container">
-        <div class="section-label reveal">Sound familiar?</div>
-        <h2 class="section-h2 reveal reveal-delay-1" id="problem-heading">
-          Why most students struggle to<br /><em>actually study</em>
-        </h2>
-        <div class="problem-grid">
-          <div class="problem-card reveal reveal-delay-1">
-            <div class="problem-icon">😵‍💫</div>
-            <h3>You open your laptop and immediately lose focus</h3>
-            <p>YouTube, Reddit, Instagram. Before you know it, two hours are gone and you've studied nothing.</p>
-          </div>
-          <div class="problem-card reveal reveal-delay-2">
-            <div class="problem-icon">🤷</div>
-            <h3>You don't know what to study first</h3>
-            <p>You stare at five subjects, can't decide, so you do none. Decision fatigue is a real productivity killer.</p>
-          </div>
-          <div class="problem-card reveal reveal-delay-3">
-            <div class="problem-icon">📉</div>
-            <h3>You have no idea if you're actually making progress</h3>
-            <p>You study for hours but feel like you're spinning your wheels. No data, no direction, no confidence.</p>
-          </div>
-        </div>
-        <div class="problem-bridge reveal">
-          <div class="bridge-line"></div>
-          <p>StudyNest fixes all three — automatically.</p>
-          <div class="bridge-line"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══════════════════════════════════════════════
-         SOLUTION
-    ══════════════════════════════════════════════ -->
-    <section class="solution" aria-labelledby="solution-heading">
-      <div class="container">
-        <div class="section-label reveal">The fix</div>
-        <h2 class="section-h2 reveal reveal-delay-1" id="solution-heading">
-          Your personal AI study system,<br /><em>right in your browser</em>
-        </h2>
-        <p class="section-sub reveal reveal-delay-2">
-          StudyNest sits quietly in Chrome and activates the moment you need it.
-          It's not another app you have to remember to open — it's always there, always smart.
-        </p>
-
-        <div class="solution-pillars">
-          <div class="pillar reveal reveal-delay-1">
-            <div class="pillar-num">01</div>
-            <div class="pillar-content">
-              <h3>AI tells you <em>exactly</em> what to study</h3>
-              <p>Based on your schedule, past sessions, and upcoming exams, the AI surfaces what matters most — so you never waste time deciding.</p>
-            </div>
-          </div>
-          <div class="pillar reveal reveal-delay-2">
-            <div class="pillar-num">02</div>
-            <div class="pillar-content">
-              <h3>Focus mode blocks every distraction</h3>
-              <p>One click activates a force-field around your study time. Distracting sites get blocked, your Pomodoro timer starts, and your streak builds.</p>
-            </div>
-          </div>
-          <div class="pillar reveal reveal-delay-3">
-            <div class="pillar-num">03</div>
-            <div class="pillar-content">
-              <h3>Analytics show your real progress</h3>
-              <p>See daily study hours, streak calendars, XP earned, and subject breakdowns. Progress you can see is progress that keeps happening.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══════════════════════════════════════════════
-         FEATURES
-    ══════════════════════════════════════════════ -->
-    <section class="features" id="features" aria-labelledby="features-heading">
-      <div class="container">
-        <div class="section-label reveal">Everything you need</div>
-        <h2 class="section-h2 reveal reveal-delay-1" id="features-heading">
-          Best AI Study Tools for Chrome —<br /><em>all in one place</em>
-        </h2>
-
-        <div class="features-grid">
-
-          <article class="feat-card feat-card-wide reveal reveal-delay-1" aria-label="AI Assistant feature">
-            <div class="feat-card-inner">
-              <div class="feat-emoji">🤖</div>
-              <div class="feat-tag">AI-Powered</div>
-              <h3 class="feat-h3">AI Study Assistant</h3>
-              <p>Ask anything. Summarize articles, generate flashcards, explain concepts, and get a personalised study plan — all without leaving your browser tab.</p>
-              <ul class="feat-bullets">
-                <li>Summarize any webpage in one click</li>
-                <li>Generate flashcards from your notes</li>
-                <li>Get smart study schedule suggestions</li>
-              </ul>
-            </div>
-            <div class="feat-visual feat-visual-ai">
-              <div class="ai-chat-demo">
-                <div class="ai-msg ai-msg-user">Explain photosynthesis simply</div>
-                <div class="ai-msg ai-msg-bot">
-                  <span class="ai-typing-dot"></span>
-                  Plants use sunlight to convert CO₂ + water into glucose + oxygen. Think of it as the plant's way of cooking its own food using light as the stove...
-                </div>
-                <div class="ai-msg ai-msg-user">Create flashcards from this</div>
-                <div class="ai-msg ai-msg-bot">✅ Created 5 flashcards → saved to Biology deck</div>
-              </div>
-            </div>
-          </article>
-
-          <article class="feat-card reveal reveal-delay-2" aria-label="Smart Planner feature">
-            <div class="feat-emoji">📅</div>
-            <h3 class="feat-h3">Smart Planner</h3>
-            <p>Organize tasks by subject, deadline, and priority. The AI reorders your list so you always tackle what matters most first.</p>
-            <div class="feat-mini-ui">
-              <div class="task-item task-high"><span class="task-dot task-red"></span>Biology Essay — Due Tomorrow</div>
-              <div class="task-item"><span class="task-dot task-orange"></span>Math Chapter 7 — 3 days</div>
-              <div class="task-item task-done"><span class="task-dot task-green"></span>Physics Notes ✓</div>
-            </div>
-          </article>
-
-          <article class="feat-card reveal reveal-delay-3" aria-label="Focus Mode feature">
-            <div class="feat-emoji">🎯</div>
-            <h3 class="feat-h3">Focus Mode</h3>
-            <p>Block distracting sites the moment you start a session. Built-in Pomodoro timer, custom schedules, and a streak system to keep you accountable.</p>
-            <div class="feat-mini-ui feat-focus-ui">
-              <div class="focus-ring">
-                <svg viewBox="0 0 100 100" class="focus-svg">
-                  <circle cx="50" cy="50" r="42" class="focus-track"/>
-                  <circle cx="50" cy="50" r="42" class="focus-progress"/>
-                </svg>
-                <div class="focus-time">23:14</div>
-              </div>
-              <div class="focus-blocked">
-                <div class="blocked-tag">youtube.com 🚫</div>
-                <div class="blocked-tag">twitter.com 🚫</div>
-              </div>
-            </div>
-          </article>
-
-          <article class="feat-card reveal reveal-delay-1" aria-label="Flashcards feature">
-            <div class="feat-emoji">🃏</div>
-            <h3 class="feat-h3">Smart Flashcards</h3>
-            <p>Create, import, or AI-generate flashcards. Study them with spaced repetition so you remember more in less time.</p>
-            <div class="feat-mini-ui">
-              <div class="flashcard-demo">
-                <div class="fc-front">What is mitosis?</div>
-                <div class="fc-flip">↕ tap to flip</div>
-              </div>
-            </div>
-          </article>
-
-          <article class="feat-card reveal reveal-delay-2" aria-label="Highlights feature">
-            <div class="feat-emoji">✍️</div>
-            <h3 class="feat-h3">Highlight & Summarize</h3>
-            <p>Select any text on any webpage. Instantly highlight it, save it to a folder, tag it, and ask the AI to explain or summarize it.</p>
-            <div class="feat-mini-ui">
-              <div class="highlight-demo">
-                <p class="hl-text">The <mark class="hl-yellow">mitochondria</mark> is the powerhouse of the <mark class="hl-blue">cell</mark>, producing ATP through cellular respiration.</p>
-                <div class="hl-popup">📁 Saved to Biology · <span>AI Summary ✓</span></div>
-              </div>
-            </div>
-          </article>
-
-          <article class="feat-card reveal reveal-delay-3" aria-label="Progress Tracking feature">
-            <div class="feat-emoji">📊</div>
-            <h3 class="feat-h3">Progress Analytics</h3>
-            <p>Daily study heatmaps, subject breakdowns, XP system, and leaderboards. See your growth and stay motivated with real data.</p>
-            <div class="feat-mini-ui feat-stats-ui">
-              <div class="stat-bars">
-                <div class="stat-bar-row"><span>Biology</span><div class="bar"><div class="bar-fill" style="width:82%;background:#4CAF50"></div></div><span>82%</span></div>
-                <div class="stat-bar-row"><span>Math</span><div class="bar"><div class="bar-fill" style="width:65%;background:#2196F3"></div></div><span>65%</span></div>
-                <div class="stat-bar-row"><span>History</span><div class="bar"><div class="bar-fill" style="width:48%;background:#FF9800"></div></div><span>48%</span></div>
-              </div>
-            </div>
-          </article>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ══════════════════════════════════════════════
-         HOW IT WORKS
-    ══════════════════════════════════════════════ -->
-    <section class="how" id="how" aria-labelledby="how-heading">
-      <div class="container">
-        <div class="section-label reveal">Dead simple</div>
-        <h2 class="section-h2 reveal reveal-delay-1" id="how-heading">
-          Go from install to<br /><em>studying in 60 seconds</em>
-        </h2>
-
-        <div class="steps">
-          <div class="step reveal reveal-delay-1">
-            <div class="step-num">1</div>
-            <div class="step-content">
-              <h3>Add StudyNest to Chrome</h3>
-              <p>One click. No sign-up required. The extension appears instantly in your toolbar — ready to use immediately.</p>
-            </div>
-            <div class="step-connector" aria-hidden="true"></div>
-          </div>
-          <div class="step reveal reveal-delay-2">
-            <div class="step-num">2</div>
-            <div class="step-content">
-              <h3>Tell it your subjects &amp; goals</h3>
-              <p>Add your classes, upcoming exams, and tasks. Takes 2 minutes. The AI does the rest — building your priority list automatically.</p>
-            </div>
-            <div class="step-connector" aria-hidden="true"></div>
-          </div>
-          <div class="step reveal reveal-delay-3">
-            <div class="step-num">3</div>
-            <div class="step-content">
-              <h3>Study, track, and improve</h3>
-              <p>Start focus sessions, highlight content, chat with AI, earn XP. Watch your progress compound day over day.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="how-cta reveal">
-          <a href="#install" class="btn btn-primary btn-lg">Start in 60 seconds — Free</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══════════════════════════════════════════════
-         SOCIAL PROOF
-    ══════════════════════════════════════════════ -->
-    <section class="social" id="reviews" aria-labelledby="reviews-heading">
-      <div class="container">
-        <div class="section-label reveal">What students say</div>
-        <h2 class="section-h2 reveal reveal-delay-1" id="reviews-heading">
-          Trusted by students who<br /><em>actually improved their grades</em>
-        </h2>
-
-        <div class="trust-bar reveal reveal-delay-2">
-          <div class="trust-item">
-            <strong>50,000+</strong>
-            <span>Weekly active users</span>
-          </div>
-          <div class="trust-item">
-            <strong>4.9 / 5 ★</strong>
-            <span>Chrome Web Store</span>
-          </div>
-          <div class="trust-item">
-            <strong>2,847</strong>
-            <span>Five-star reviews</span>
-          </div>
-          <div class="trust-item">
-            <strong>#1</strong>
-            <span>AI Study Extension</span>
-          </div>
-        </div>
-
-        <div class="reviews-grid">
-          <blockquote class="review reveal reveal-delay-1">
-            <div class="review-stars" aria-label="5 stars">★★★★★</div>
-            <p>"I went from barely passing to a 3.8 GPA in one semester. The AI planner told me exactly what to focus on before exams. I wish I had this in freshman year."</p>
-            <footer>
-              <div class="reviewer-avatar" aria-hidden="true">SM</div>
-              <div>
-                <strong>Sofia M.</strong>
-                <span>Pre-Med, University of Michigan</span>
-              </div>
-            </footer>
-          </blockquote>
-
-          <blockquote class="review reveal reveal-delay-2">
-            <div class="review-stars" aria-label="5 stars">★★★★★</div>
-            <p>"The focus mode + Pomodoro timer is insane. I used to waste 3 hours 'studying' on YouTube. Now I get more done in 90 minutes than I used to in a whole day."</p>
-            <footer>
-              <div class="reviewer-avatar" aria-hidden="true">JK</div>
-              <div>
-                <strong>James K.</strong>
-                <span>Computer Science, UCL London</span>
-              </div>
-            </footer>
-          </blockquote>
-
-          <blockquote class="review reveal reveal-delay-3">
-            <div class="review-stars" aria-label="5 stars">★★★★★</div>
-            <p>"I highlight stuff on Wikipedia and it saves to folders automatically and makes flashcards. My whole revision system is in StudyNest now. Can't live without it."</p>
-            <footer>
-              <div class="reviewer-avatar" aria-hidden="true">AR</div>
-              <div>
-                <strong>Aisha R.</strong>
-                <span>A-Level Student, UK</span>
-              </div>
-            </footer>
-          </blockquote>
-
-          <blockquote class="review reveal reveal-delay-1">
-            <div class="review-stars" aria-label="5 stars">★★★★★</div>
-            <p>"The streak system got me. I haven't missed a study session in 47 days because I can't break the streak. Gamification actually works when it's built this well."</p>
-            <footer>
-              <div class="reviewer-avatar" aria-hidden="true">LT</div>
-              <div>
-                <strong>Lucas T.</strong>
-                <span>MBA Student, IE Business School</span>
-              </div>
-            </footer>
-          </blockquote>
-
-          <blockquote class="review reveal reveal-delay-2">
-            <div class="review-stars" aria-label="5 stars">★★★★★</div>
-            <p>"As a teacher I recommended this to my whole class. The AI summaries and flashcard generator save my students hours. It's genuinely the best study tool I've seen."</p>
-            <footer>
-              <div class="reviewer-avatar" aria-hidden="true">DR</div>
-              <div>
-                <strong>Dr. Rachel P.</strong>
-                <span>High School Biology Teacher</span>
-              </div>
-            </footer>
-          </blockquote>
-
-          <blockquote class="review reveal reveal-delay-3">
-            <div class="review-stars" aria-label="5 stars">★★★★★</div>
-            <p>"Finally a productivity tool that doesn't feel like another task to manage. StudyNest just works. You open Chrome and it quietly keeps you on track."</p>
-            <footer>
-              <div class="reviewer-avatar" aria-hidden="true">MH</div>
-              <div>
-                <strong>Marcus H.</strong>
-                <span>Law Student, University of Sydney</span>
-              </div>
-            </footer>
-          </blockquote>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══════════════════════════════════════════════
-         PREMIUM
-    ══════════════════════════════════════════════ -->
-    <section class="premium" id="premium" aria-labelledby="premium-heading">
-      <div class="container">
-        <div class="premium-inner">
-          <div class="premium-left reveal">
-            <div class="section-label section-label-light">Go further</div>
-            <h2 class="section-h2 section-h2-light" id="premium-heading">
-              Unlock the full<br /><em>StudyNest system</em>
-            </h2>
-            <p class="section-sub section-sub-light">
-              The free plan is powerful. Premium is transformational.
-            </p>
-            <ul class="premium-list">
-              <li><span class="prem-check">✓</span> Unlimited AI conversations &amp; summaries</li>
-              <li><span class="prem-check">✓</span> Advanced analytics &amp; study heatmaps</li>
-              <li><span class="prem-check">✓</span> Smart AI study schedule generation</li>
-              <li><span class="prem-check">✓</span> Priority AI response speed</li>
-              <li><span class="prem-check">✓</span> Export flashcards to Anki &amp; Notion</li>
-              <li><span class="prem-check">✓</span> Collaboration &amp; group study sessions</li>
-            </ul>
-            <a href="#install" class="btn btn-premium">Try Premium Free for 7 Days →</a>
-            <p class="premium-note">No credit card required. Cancel anytime.</p>
-          </div>
-
-          <div class="premium-right reveal reveal-delay-2">
-            <div class="pricing-card">
-              <div class="pricing-label">Most popular</div>
-              <div class="pricing-name">Pro</div>
-              <div class="pricing-price">
-                <span class="price-currency">$</span>
-                <span class="price-amount">4</span>
-                <span class="price-period">.99 / month</span>
-              </div>
-              <div class="pricing-equiv">Less than a coffee per month</div>
-              <a href="#install" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:1.5rem;">Get Pro — 7 Days Free</a>
-              <div class="pricing-divider">or start with the free plan</div>
-              <a href="#install" class="btn btn-outline" style="width:100%;justify-content:center;">Add to Chrome — Free</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══════════════════════════════════════════════
-         FAQ
-    ══════════════════════════════════════════════ -->
-    <section class="faq" aria-labelledby="faq-heading">
-      <div class="container faq-inner">
-        <div class="section-label reveal">Questions</div>
-        <h2 class="section-h2 reveal reveal-delay-1" id="faq-heading">Frequently asked</h2>
-
-        <div class="faq-list">
-          <details class="faq-item reveal reveal-delay-1">
-            <summary>Is StudyNest really free?</summary>
-            <p>Yes. The core features — planner, focus mode, highlights, flashcards, progress tracking, and AI chat (limited) — are completely free forever. Premium unlocks unlimited AI and advanced analytics.</p>
-          </details>
-          <details class="faq-item reveal reveal-delay-2">
-            <summary>Does it work on all websites?</summary>
-            <p>Yes. StudyNest works across all websites — Wikipedia, course platforms, news sites, PDFs in Chrome, Google Docs, and more. The highlight and summarize feature works anywhere you can select text.</p>
-          </details>
-          <details class="faq-item reveal reveal-delay-3">
-            <summary>How is the AI powered?</summary>
-            <p>StudyNest uses state-of-the-art large language models to power its AI chat, summarization, and flashcard generation. Your data is processed securely and never sold to third parties.</p>
-          </details>
-          <details class="faq-item reveal reveal-delay-1">
-            <summary>Can I use it without creating an account?</summary>
-            <p>Absolutely. Install the extension and start using it immediately. Creating an account lets you sync your data across devices and unlocks the full feature set.</p>
-          </details>
-          <details class="faq-item reveal reveal-delay-2">
-            <summary>Is my study data private?</summary>
-            <p>Yes. Your highlights, notes, and flashcards are stored locally on your device by default. Cloud sync (for account users) is fully encrypted. We never sell your data.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══════════════════════════════════════════════
-         FINAL CTA
-    ══════════════════════════════════════════════ -->
-    <section class="final-cta" aria-label="Final call to action">
-      <div class="final-orb final-orb-1"></div>
-      <div class="final-orb final-orb-2"></div>
-      <div class="container final-cta-inner">
-        <div class="final-emoji reveal">🪺</div>
-        <h2 class="final-h2 reveal reveal-delay-1">
-          Your best semester<br /><em>starts today</em>
-        </h2>
-        <p class="final-sub reveal reveal-delay-2">
-          Join 50,000+ students who stopped guessing and started studying smarter.<br />
-          Free forever. No credit card. Works in 60 seconds.
-        </p>
-        <a href="#install" class="btn btn-primary btn-xl reveal reveal-delay-3">
-          <svg width="22" height="22" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect width="20" height="20" rx="4" fill="white" fill-opacity=".15"/><path d="M10 4v8m0 0l-3-3m3 3l3-3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 14v1a1 1 0 001 1h10a1 1 0 001-1v-1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
-          Add StudyNest to Chrome — Free
-        </a>
-        <p class="final-note reveal reveal-delay-3">Available on Chrome · Edge · Brave · Opera</p>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ══════════════════════════════════════════════
-       FOOTER
-  ══════════════════════════════════════════════ -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div class="footer-logo">
-        <span>🪺</span> StudyNest
-      </div>
-      <nav class="footer-links" aria-label="Footer navigation">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <a href="#">Contact</a>
-        <a href="#">Blog</a>
-      </nav>
-      <p class="footer-copy">© 2025 StudyNest. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <!-- Sticky CTA bar (mobile) -->
-  <div class="sticky-cta" id="stickyCta" aria-label="Sticky install button">
-    <a href="#install" class="btn btn-primary">Add to Chrome — Free</a>
+<!-- ════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <div class="h-orb h-orb-1"></div>
+    <div class="h-orb h-orb-2"></div>
+    <div class="h-grid"></div>
   </div>
 
-  <script src="script.js"></script>
+  <div class="container hero-inner">
+    <!-- Copy -->
+    <div class="hero-copy">
+      <div class="hero-chrome-badge reveal">
+        <span class="badge-dot"></span>
+        Free Chrome Extension · Installs in 10 seconds
+      </div>
+
+      <h1 class="hero-h1 reveal reveal-d1">
+        Stop Procrastinating.<br/>
+        <em>Start Making Real Progress.</em>
+      </h1>
+
+      <p class="hero-sub reveal reveal-d2">
+        Your all-in-one AI study system that tells you what to study,
+        keeps you focused, and tracks your progress automatically.
+      </p>
+      <p class="hero-desc reveal reveal-d2">
+        Stop wasting time switching between apps.
+        Plan tasks, focus deeply, and see real progress every day — all in one place.
+      </p>
+
+      <div class="hero-btns reveal reveal-d3">
+        <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2C5.58 2 2 5.58 2 10s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.4A6.4 6.4 0 113.6 10 6.4 6.4 0 0110 16.4z" fill="white" opacity=".3"/><path d="M10 3.6a6.4 6.4 0 016.4 6.4H10V3.6z" fill="white"/><path d="M10 10l-4.4 7.6A6.4 6.4 0 013.6 10H10z" fill="white" opacity=".7"/><path d="M10 10l4.4 7.6a6.4 6.4 0 01-8.8 0L10 10z" fill="white" opacity=".5"/></svg>
+          Add to Chrome — It's Free
+        </a>
+        <a href="#screenshots" class="btn btn-ghost btn-lg">See it in action →</a>
+      </div>
+      <p class="hero-trust reveal reveal-d3">🔒 Trusted by 50,000+ students · Free forever · No sign-up needed</p>
+
+      <div class="hero-social reveal reveal-d4">
+        <div class="social-avs">
+          <div class="sav" style="background:#C49A72">S</div>
+          <div class="sav" style="background:#8B5E3C">J</div>
+          <div class="sav" style="background:#A07850">A</div>
+          <div class="sav" style="background:#6B4A2A">M</div>
+          <div class="sav" style="background:#5C3D22">+</div>
+        </div>
+        <div>
+          <strong>50,000+ students</strong> already studying smarter
+          <div class="social-stars">★★★★★ 4.9 · 2,847 reviews</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Browser popup demo -->
+    <div class="hero-visual reveal reveal-d2">
+      <div class="browser-wrap">
+        <div class="browser-top">
+          <div class="b-dots"><span></span><span></span><span></span></div>
+          <div class="b-url">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><rect x="1" y="3" width="10" height="8" rx="1.5" stroke="#aaa" stroke-width="1.2"/><path d="M4 3V2a2 2 0 014 0v1" stroke="#aaa" stroke-width="1.2"/></svg>
+            en.wikipedia.org
+          </div>
+          <div class="b-ext">
+            <img src="assets/icon.png" alt="StudyNest icon" style="width:15px;height:15px;border-radius:3px" onerror="this.outerHTML='🪺'" />
+          </div>
+        </div>
+
+        <div class="browser-body">
+          <!-- Fake webpage behind panel -->
+          <div class="fake-page">
+            <div class="fl" style="width:75%;height:12px"></div>
+            <div class="fl" style="width:50%;height:9px;margin-top:8px"></div>
+            <div style="margin-top:14px">
+              <div class="fl" style="width:100%;height:8px"></div>
+              <div class="fl hl-y" style="width:90%;height:8px;margin-top:6px"></div>
+              <div class="fl" style="width:76%;height:8px;margin-top:6px"></div>
+              <div class="fl hl-b" style="width:86%;height:8px;margin-top:6px"></div>
+              <div class="fl" style="width:62%;height:8px;margin-top:6px"></div>
+              <div class="fl hl-y" style="width:80%;height:8px;margin-top:6px"></div>
+              <div class="fl" style="width:68%;height:8px;margin-top:6px"></div>
+              <div class="fl" style="width:55%;height:8px;margin-top:6px"></div>
+            </div>
+          </div>
+
+          <!-- StudyNest Side Panel -->
+          <div class="sn-panel">
+
+            <!-- Topbar -->
+            <div class="sn-topbar">
+              <div class="sn-topbar-left">
+                <img src="assets/icon.png" alt="" class="sn-tb-icon" onerror="this.style.display='none'" />
+                <span class="sn-tb-title">StudyNest</span>
+              </div>
+              <span class="sn-greeting">Good afternoon, Alex ↩</span>
+            </div>
+
+            <!-- Level bar -->
+            <div class="sn-level-bar">
+              <span class="sn-lv-icon">🎓</span>
+              <div class="sn-lv-info">
+                <span class="sn-lv-title">Lv.7 Scholar</span>
+                <span class="sn-lv-xp">XP: 680 / 1000</span>
+              </div>
+              <div class="sn-lv-track"><div class="sn-lv-fill" style="width:68%"></div></div>
+            </div>
+
+            <!-- Slide label pill -->
+            <div class="sn-slide-label-row">
+              <span class="sn-slide-label" id="snSlideLabel">🏠 Dashboard</span>
+            </div>
+
+            <!-- Slides -->
+            <div class="sn-content" id="popupSlides">
+
+              <!-- 0: Dashboard -->
+              <div class="ps active" data-label="🏠 Dashboard">
+                <!-- Calendar FIRST — matches real app -->
+                <div class="sn-cal-mini">
+                  <div class="sn-cal-nav-row">
+                    <span class="sn-cal-arr">‹</span>
+                    <span class="sn-cal-month">March 2026</span>
+                    <span class="sn-cal-arr">›</span>
+                  </div>
+                  <div class="sn-cal-tip">Tip: click any date to add tasks &amp; deadlines</div>
+                  <div class="sn-cal-grid">
+                    <span class="sn-cal-d sn-cal-hdr">Su</span><span class="sn-cal-d sn-cal-hdr">Mo</span><span class="sn-cal-d sn-cal-hdr">Tu</span><span class="sn-cal-d sn-cal-hdr">We</span><span class="sn-cal-d sn-cal-hdr">Th</span><span class="sn-cal-d sn-cal-hdr">Fr</span><span class="sn-cal-d sn-cal-hdr">Sa</span>
+                    <span class="sn-cal-d">1</span><span class="sn-cal-d">2</span><span class="sn-cal-d">3</span><span class="sn-cal-d">4</span><span class="sn-cal-d">5</span><span class="sn-cal-d">6</span><span class="sn-cal-d">7</span>
+                    <span class="sn-cal-d">8</span><span class="sn-cal-d">9</span><span class="sn-cal-d">10</span><span class="sn-cal-d">11</span><span class="sn-cal-d">12</span><span class="sn-cal-d">13</span><span class="sn-cal-d">14</span>
+                    <span class="sn-cal-d">15</span><span class="sn-cal-d">16</span><span class="sn-cal-d">17</span><span class="sn-cal-d">18</span><span class="sn-cal-d">19</span><span class="sn-cal-d">20</span><span class="sn-cal-d">21</span>
+                    <span class="sn-cal-d sn-cal-today">22</span><span class="sn-cal-d">23</span><span class="sn-cal-d">24</span><span class="sn-cal-d">25</span><span class="sn-cal-d">26</span><span class="sn-cal-d">27</span><span class="sn-cal-d">28</span>
+                    <span class="sn-cal-d">29</span><span class="sn-cal-d">30</span><span class="sn-cal-d">31</span><span class="sn-cal-d sn-cal-faded"></span><span class="sn-cal-d sn-cal-faded"></span><span class="sn-cal-d sn-cal-faded"></span><span class="sn-cal-d sn-cal-faded"></span>
+                  </div>
+                </div>
+                <!-- Feature cards below calendar -->
+                <div class="sn-dash-grid">
+                  <button class="sn-dash-card"><span class="sn-dc-icon">🖍️</span><span class="sn-dc-name">Highlights</span><span class="sn-dc-sub">View saved excerpts</span></button>
+                  <button class="sn-dash-card"><span class="sn-dc-icon">🃏</span><span class="sn-dc-name">Flashcards</span><span class="sn-dc-sub">Review your cards</span></button>
+                  <button class="sn-dash-card"><span class="sn-dc-icon">🚫</span><span class="sn-dc-name">Focus Mode</span><span class="sn-dc-sub">Block distractions</span></button>
+                  <button class="sn-dash-card"><span class="sn-dc-icon">⏱</span><span class="sn-dc-name">Pomodoro</span><span class="sn-dc-sub">Study session timer</span></button>
+                  <button class="sn-dash-card sn-dc-wide"><span class="sn-dc-icon">🤖</span><div class="sn-dc-text"><span class="sn-dc-name">AI Assistant</span><span class="sn-dc-sub">Ask, explain &amp; generate flashcards</span></div></button>
+                </div>
+              </div>
+
+              <!-- 1: Highlights -->
+              <div class="ps" data-label="🖍️ Highlights">
+                <div class="sn-view-header"><span>🖍️ Highlights</span></div>
+                <div class="ps-search"><input type="text" placeholder="Search highlights…" readonly /></div>
+                <div class="ps-folders">
+                  <span class="fc active">📚 All 6</span>
+                  <span class="fc">🔬 Biology 3</span>
+                  <span class="fc">📐 Math 2</span>
+                </div>
+                <div class="ps-hl-list">
+                  <div class="hl-row"><span class="hd hd-y"></span><div><p>"Mitochondria produce ATP via cellular respiration…"</p><small>🔗 Wikipedia · Mar 21</small></div></div>
+                  <div class="hl-row"><span class="hd hd-b"></span><div><p>"Photosynthesis converts light into glucose…"</p><small>🔗 Khan Academy · Mar 20</small></div></div>
+                  <div class="hl-row"><span class="hd hd-g"></span><div><p>"DNA replication is semi-conservative in nature…"</p><small>🔗 Wikipedia · Mar 19</small></div></div>
+                </div>
+              </div>
+
+              <!-- 2: Focus Mode -->
+              <div class="ps" data-label="🎯 Focus Mode">
+                <div class="sn-view-header"><span>🎯 Focus Mode</span></div>
+                <div class="ps-focus-ring">
+                  <svg width="110" height="110" viewBox="0 0 110 110">
+                    <circle cx="55" cy="55" r="46" fill="none" stroke="#EDE3D3" stroke-width="8"/>
+                    <circle cx="55" cy="55" r="46" fill="none" stroke="#8B5E3C" stroke-width="8" stroke-linecap="round"
+                      stroke-dasharray="289" stroke-dashoffset="90" transform="rotate(-90 55 55)"/>
+                  </svg>
+                  <div class="focus-inner-text">
+                    <div class="fi-time">23:41</div>
+                    <div class="fi-lbl">focus time</div>
+                  </div>
+                </div>
+                <div class="focus-chips">
+                  <span class="focus-chip focus-chip-active">25m</span>
+                  <span class="focus-chip">45m</span>
+                  <span class="focus-chip">1h</span>
+                  <span class="focus-chip">90m</span>
+                </div>
+                <div class="ps-blocked">
+                  <div class="bl-row"><span>🚫 youtube.com</span><span class="bl-save">+2.4h saved</span></div>
+                  <div class="bl-row"><span>🚫 twitter.com</span><span class="bl-save">+1.1h saved</span></div>
+                </div>
+              </div>
+
+              <!-- 3: AI Chat -->
+              <div class="ps" data-label="🤖 AI Assistant">
+                <div class="sn-view-header"><span>🤖 AI Assistant</span></div>
+                <div class="ai-powered-row">
+                  <span class="ai-pw-label">Powered by</span>
+                  <span class="ai-pw-badge ai-pw-chatgpt">ChatGPT</span>
+                  <span class="ai-pw-badge ai-pw-claude">Claude</span>
+                  <span class="ai-pw-badge ai-pw-deepseek">DeepSeek</span>
+                </div>
+                <div class="ps-chat">
+                  <div class="cm cm-bot">Hi Alex! Ask me anything 📚</div>
+                  <div class="cm cm-user">Explain photosynthesis simply</div>
+                  <div class="cm cm-bot">Plants use sunlight + CO₂ + water → glucose + oxygen ☀️</div>
+                  <div class="cm cm-user">Make flashcards from this</div>
+                  <div class="cm cm-bot cm-ok">✅ 5 flashcards → saved to Biology deck</div>
+                </div>
+                <div class="ps-chat-input">
+                  <input type="text" placeholder="Ask anything…" readonly />
+                  <button>→</button>
+                </div>
+              </div>
+
+              <!-- 4: Flashcards -->
+              <div class="ps" data-label="🃏 Flashcards">
+                <div class="sn-view-header"><span>🃏 Flashcards</span></div>
+                <div class="sn-fc-subject">
+                  <div class="sn-fc-subj-row"><span class="sn-subj-dot" style="background:#4CAF50"></span><strong>Biology</strong><span class="sn-subj-count">24 cards</span><button class="sn-study-btn">Study →</button></div>
+                  <div class="sn-fc-subj-row"><span class="sn-subj-dot" style="background:#2196F3"></span><strong>Mathematics</strong><span class="sn-subj-count">18 cards</span><button class="sn-study-btn">Study →</button></div>
+                  <div class="sn-fc-subj-row"><span class="sn-subj-dot" style="background:#FF9800"></span><strong>History</strong><span class="sn-subj-count">11 cards</span><button class="sn-study-btn">Study →</button></div>
+                </div>
+                <!-- Flashcard flip preview -->
+                <div class="sn-fc-flip-preview">
+                  <div class="sn-fc-card">
+                    <div class="sn-fc-q">What is mitosis?</div>
+                    <div class="sn-fc-divider"></div>
+                    <div class="sn-fc-a">Cell division producing two identical daughter cells 🧬</div>
+                  </div>
+                  <div class="sn-fc-btns">
+                    <button class="sn-fc-btn sn-fc-review">↺ Review</button>
+                    <button class="sn-fc-btn sn-fc-know">✓ Know</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 5: Pomodoro -->
+              <div class="ps" data-label="⏱ Pomodoro">
+                <div class="sn-view-header"><span>⏱ Pomodoro Timer</span></div>
+                <div class="ps-focus-ring">
+                  <svg width="110" height="110" viewBox="0 0 110 110">
+                    <circle cx="55" cy="55" r="46" fill="none" stroke="#EDE3D3" stroke-width="8"/>
+                    <circle cx="55" cy="55" r="46" fill="none" stroke="#C49A72" stroke-width="8" stroke-linecap="round"
+                      stroke-dasharray="289" stroke-dashoffset="140" transform="rotate(-90 55 55)"/>
+                  </svg>
+                  <div class="focus-inner-text">
+                    <div class="fi-time">17:32</div>
+                    <div class="fi-lbl">work session</div>
+                  </div>
+                </div>
+                <div class="pomo-status">
+                  <span class="pomo-pill active">🍅 Work</span>
+                  <span class="pomo-pill">☕ Break</span>
+                  <span class="pomo-pill">Session 2/4</span>
+                </div>
+                <div class="pomo-sessions">
+                  <span class="pomo-dot pomo-done"></span>
+                  <span class="pomo-dot pomo-active"></span>
+                  <span class="pomo-dot"></span>
+                  <span class="pomo-dot"></span>
+                </div>
+              </div>
+
+              <!-- 6: Progress -->
+              <div class="ps" data-label="📊 Progress">
+                <div class="sn-view-header"><span>📊 Progress</span></div>
+                <div class="ps-prog-stats">
+                  <div class="pg-s"><div class="pg-v">14</div><div class="pg-l">🔥 Streak</div></div>
+                  <div class="pg-s"><div class="pg-v">42h</div><div class="pg-l">⏱ Month</div></div>
+                  <div class="pg-s"><div class="pg-v">680</div><div class="pg-l">⭐ XP</div></div>
+                </div>
+                <div class="ps-prog-bars">
+                  <div class="pb-row"><span>Biology</span><div class="pb"><div class="pbf" style="width:82%;background:#4CAF50"></div></div><span>82%</span></div>
+                  <div class="pb-row"><span>Math</span><div class="pb"><div class="pbf" style="width:65%;background:#2196F3"></div></div><span>65%</span></div>
+                  <div class="pb-row"><span>History</span><div class="pb"><div class="pbf" style="width:48%;background:#FF9800"></div></div><span>48%</span></div>
+                </div>
+              </div>
+
+              <!-- 7: Calendar -->
+              <div class="ps" data-label="📅 Calendar">
+                <div class="sn-view-header"><span>📅 Study Calendar</span></div>
+                <div class="sn-cal-full">
+                  <div class="sn-cal-nav">
+                    <span>‹</span><strong>March 2025</strong><span>›</span>
+                  </div>
+                  <div class="sn-cal-grid sn-cal-grid-full">
+                    <span class="sn-cal-d sn-cal-hdr">Mo</span><span class="sn-cal-d sn-cal-hdr">Tu</span><span class="sn-cal-d sn-cal-hdr">We</span><span class="sn-cal-d sn-cal-hdr">Th</span><span class="sn-cal-d sn-cal-hdr">Fr</span><span class="sn-cal-d sn-cal-hdr">Sa</span><span class="sn-cal-d sn-cal-hdr">Su</span>
+                    <span class="sn-cal-d sn-cal-prev">24</span><span class="sn-cal-d sn-cal-prev">25</span><span class="sn-cal-d sn-cal-prev">26</span><span class="sn-cal-d sn-cal-prev">27</span><span class="sn-cal-d">1</span><span class="sn-cal-d">2</span><span class="sn-cal-d">3</span>
+                    <span class="sn-cal-d">4</span><span class="sn-cal-d sn-cal-dot">5</span><span class="sn-cal-d">6</span><span class="sn-cal-d sn-cal-dot">7</span><span class="sn-cal-d">8</span><span class="sn-cal-d">9</span><span class="sn-cal-d">10</span>
+                    <span class="sn-cal-d sn-cal-dot">11</span><span class="sn-cal-d sn-cal-dot">12</span><span class="sn-cal-d">13</span><span class="sn-cal-d sn-cal-dot">14</span><span class="sn-cal-d sn-cal-dot">15</span><span class="sn-cal-d">16</span><span class="sn-cal-d">17</span>
+                    <span class="sn-cal-d sn-cal-dot">18</span><span class="sn-cal-d sn-cal-dot">19</span><span class="sn-cal-d sn-cal-dot">20</span><span class="sn-cal-d sn-cal-today">21</span><span class="sn-cal-d sn-cal-dot">22</span><span class="sn-cal-d">23</span><span class="sn-cal-d">24</span>
+                    <span class="sn-cal-d">25</span><span class="sn-cal-d">26</span><span class="sn-cal-d">27</span><span class="sn-cal-d">28</span><span class="sn-cal-d">29</span><span class="sn-cal-d">30</span><span class="sn-cal-d">31</span>
+                  </div>
+                  <div class="sn-cal-legend">
+                    <span class="sn-cal-dot-ref"></span><span>Study session logged</span>
+                    <span class="sn-cal-today-ref"></span><span>Today</span>
+                  </div>
+                  <div class="sn-cal-upcoming">
+                    <div class="sn-cal-task"><span class="sn-ct-badge" style="background:#EF4444">!</span><div><strong>Biology Essay</strong><small>Due Mar 24</small></div></div>
+                    <div class="sn-cal-task"><span class="sn-ct-badge" style="background:#F59E0B">~</span><div><strong>Math Chapter 7</strong><small>Due Mar 28</small></div></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 8: Study Music -->
+              <div class="ps" data-label="🎵 Study Music">
+                <div class="sn-view-header"><span>🎵 Study Music</span></div>
+                <div class="sn-music-player">
+                  <div class="sn-music-cover">
+                    <span class="sn-music-note">♪</span>
+                  </div>
+                  <div class="sn-music-info">
+                    <div class="sn-music-title">Lofi Study Beats</div>
+                    <div class="sn-music-sub">Focus Playlist · 42 tracks</div>
+                  </div>
+                  <div class="sn-music-controls">
+                    <button class="sn-mc-btn">⏮</button>
+                    <button class="sn-mc-btn sn-mc-play">▶</button>
+                    <button class="sn-mc-btn">⏭</button>
+                  </div>
+                  <div class="sn-music-bar">
+                    <div class="sn-music-fill" style="width:35%"></div>
+                  </div>
+                </div>
+                <div class="sn-playlist">
+                  <div class="sn-pl-item sn-pl-active"><span>🎵</span><span>Lofi Study Beats</span><span>3:24</span></div>
+                  <div class="sn-pl-item"><span>🎵</span><span>Rainy Day Focus</span><span>4:12</span></div>
+                  <div class="sn-pl-item"><span>🎵</span><span>Deep Work Mode</span><span>5:01</span></div>
+                </div>
+              </div>
+
+            </div><!-- /sn-content -->
+
+            <!-- Dot indicator row -->
+            <div class="sn-dot-row" id="popupDots"></div>
+
+            <!-- Bottom dock -->
+            <div class="sn-dock" id="popupTabs">
+              <button class="sn-dock-btn active" data-goto="0"><span>🏠</span><span class="sn-dock-lbl">Home</span></button>
+              <button class="sn-dock-btn" data-goto="0"><span>🌐</span><span class="sn-dock-lbl">Dashboard</span></button>
+              <button class="sn-dock-btn" data-goto="0"><span>⚙️</span><span class="sn-dock-lbl">Settings</span></button>
+              <button class="sn-dock-btn" data-goto="0"><span>⭐</span><span class="sn-dock-lbl">Support</span></button>
+            </div>
+
+          </div><!-- /sn-panel -->
+        </div>        </div>
+      </div>
+
+      <div class="float-tag ft-1 reveal reveal-d3">✨ AI just summarized your page</div>
+      <div class="float-tag ft-2 reveal reveal-d4">🔥 14-day streak!</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO INSTALL STRIP -->
+<div class="install-strip">
+  <div class="container install-strip-inner">
+    <div class="is-step"><span class="is-num">1</span> Click <strong>Add to Chrome</strong></div>
+    <div class="is-arrow">→</div>
+    <div class="is-step"><span class="is-num">2</span> Pin to your <strong>toolbar</strong></div>
+    <div class="is-arrow">→</div>
+    <div class="is-step"><span class="is-num">3</span> Click the icon &amp; <strong>start studying</strong></div>
+    <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener" class="btn btn-primary" style="margin-left:auto;flex-shrink:0">Install Free →</a>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     SCREENSHOTS SLIDESHOW
+════════════════════════════════════════════════ -->
+<section class="ss-section" id="screenshots">
+  <div class="container">
+    <div class="section-eye reveal">Real screenshots from the extension</div>
+    <h2 class="section-h2 reveal reveal-d1">Every feature,<br /><em>shown exactly as it looks</em></h2>
+    <p class="section-sub reveal reveal-d2">Click the tabs below to explore each screen.</p>
+
+    <div class="ss-wrap reveal reveal-d2">
+      <!-- Tab buttons -->
+      <div class="ss-tab-row" id="ssTabs">
+        <button class="ss-tab active" data-i="0">🏠 Dashboard</button>
+        <button class="ss-tab" data-i="1">🖍️ Highlights</button>
+        <button class="ss-tab" data-i="2">🎯 Focus Mode</button>
+        <button class="ss-tab" data-i="3">🤖 AI Chat</button>
+        <button class="ss-tab" data-i="4">🃏 Flashcards</button>
+        <button class="ss-tab" data-i="5">📊 Progress</button>
+        <button class="ss-tab" data-i="6">🎵 Study Music</button>
+      </div>
+
+      <!-- Slides -->
+      <div class="ss-stage" id="ssStage">
+
+        <div class="ss-slide active" data-i="0">
+          <div class="ss-img-wrap">
+            <!-- ▶ YOUR SCREENSHOT: place dashboard.png in assets/screenshots/ -->
+            <img src="assets/screenshots/dashboard.png"
+                 alt="StudyNest Dashboard — streak, XP, AI tip, today's tasks"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+            <div class="ss-ph">
+              <div class="ss-ph-icon">🏠</div>
+              <div class="ss-ph-name">assets/screenshots/<strong>dashboard.png</strong></div>
+              <div class="ss-ph-hint">Put your screenshot here (see image guide below)</div>
+            </div>
+          </div>
+          <div class="ss-info">
+            <h3>Dashboard</h3>
+            <p>Your study hub — streak counter, XP bar, AI-powered tip, and today's task list load the moment you click the extension icon.</p>
+          </div>
+        </div>
+
+        <div class="ss-slide" data-i="1">
+          <div class="ss-img-wrap">
+            <img src="assets/screenshots/highlights.png"
+                 alt="StudyNest Highlights — folder organization and color coding"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+            <div class="ss-ph">
+              <div class="ss-ph-icon">🖍️</div>
+              <div class="ss-ph-name">assets/screenshots/<strong>highlights.png</strong></div>
+              <div class="ss-ph-hint">Put your screenshot here (see image guide below)</div>
+            </div>
+          </div>
+          <div class="ss-info">
+            <h3>Smart Highlights</h3>
+            <p>Select text on any webpage, pick a color, choose a folder. Every highlight is saved, searchable, and AI-ready.</p>
+          </div>
+        </div>
+
+        <div class="ss-slide" data-i="2">
+          <div class="ss-img-wrap">
+            <img src="assets/screenshots/focus.png"
+                 alt="StudyNest Focus Mode — Pomodoro timer and site blocker"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+            <div class="ss-ph">
+              <div class="ss-ph-icon">🎯</div>
+              <div class="ss-ph-name">assets/screenshots/<strong>focus.png</strong></div>
+              <div class="ss-ph-hint">Put your screenshot here (see image guide below)</div>
+            </div>
+          </div>
+          <div class="ss-info">
+            <h3>Focus Mode</h3>
+            <p>Pomodoro timer + site blocker activate together. YouTube and Reddit are blocked the moment you start a session.</p>
+          </div>
+        </div>
+
+        <div class="ss-slide" data-i="3">
+          <div class="ss-img-wrap">
+            <img src="assets/screenshots/ai-chat.png"
+                 alt="StudyNest AI Assistant chat interface"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+            <div class="ss-ph">
+              <div class="ss-ph-icon">🤖</div>
+              <div class="ss-ph-name">assets/screenshots/<strong>ai-chat.png</strong></div>
+              <div class="ss-ph-hint">Put your screenshot here (see image guide below)</div>
+            </div>
+          </div>
+          <div class="ss-info">
+            <h3>AI Assistant</h3>
+            <p>Ask anything. Summarize webpages, generate flashcards, get explanations — all powered by AI without leaving your tab.</p>
+          </div>
+        </div>
+
+        <div class="ss-slide" data-i="4">
+          <div class="ss-img-wrap">
+            <img src="assets/screenshots/flashcards.png"
+                 alt="StudyNest Flashcards with spaced repetition"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+            <div class="ss-ph">
+              <div class="ss-ph-icon">🃏</div>
+              <div class="ss-ph-name">assets/screenshots/<strong>flashcards.png</strong></div>
+              <div class="ss-ph-hint">Put your screenshot here (see image guide below)</div>
+            </div>
+          </div>
+          <div class="ss-info">
+            <h3>Flashcards</h3>
+            <p>Create, import, or AI-generate flashcard decks. Study with spaced repetition to remember more in less time.</p>
+          </div>
+        </div>
+
+        <div class="ss-slide" data-i="5">
+          <div class="ss-img-wrap">
+            <img src="assets/screenshots/progress.png"
+                 alt="StudyNest Progress analytics heatmap and subject breakdown"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+            <div class="ss-ph">
+              <div class="ss-ph-icon">📊</div>
+              <div class="ss-ph-name">assets/screenshots/<strong>progress.png</strong></div>
+              <div class="ss-ph-hint">Put your screenshot here (see image guide below)</div>
+            </div>
+          </div>
+          <div class="ss-info">
+            <h3>Progress Analytics</h3>
+            <p>Daily heatmaps, subject breakdowns, XP system, and leaderboards. Watch your improvement compound.</p>
+          </div>
+        </div>
+
+        <div class="ss-slide" data-i="6">
+          <div class="ss-img-wrap">
+            <!-- ▶ YOUR SCREENSHOT: place music.png in assets/screenshots/ -->
+            <img src="assets/screenshots/music.png"
+                 alt="StudyNest Study Music — curated lo-fi playlists for focus"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+            <div class="ss-ph">
+              <div class="ss-ph-icon">🎵</div>
+              <div class="ss-ph-name">assets/screenshots/<strong>music.png</strong></div>
+              <div class="ss-ph-hint">Put your screenshot here (see image guide below)</div>
+            </div>
+          </div>
+          <div class="ss-info">
+            <h3>Study Music</h3>
+            <p>Curated lo-fi and focus playlists built right into the extension. No Spotify needed — just press play and get into the zone.</p>
+          </div>
+        </div>
+
+      </div><!-- /ss-stage -->
+
+      <div class="ss-nav">
+        <button class="ss-arr" id="ssPrev">‹</button>
+        <div class="ss-dots-row" id="ssDots"></div>
+        <button class="ss-arr" id="ssNext">›</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM SECTION -->
+<section class="problem-section">
+  <div class="container">
+    <div class="section-eye reveal">Sound familiar?</div>
+    <h2 class="section-h2 reveal reveal-d1">Why most students struggle to<br /><em>actually study</em></h2>
+    <div class="prob-grid">
+      <div class="prob-card reveal reveal-d1">
+        <div class="prob-emoji">😵‍💫</div>
+        <h3>You open your laptop and immediately lose focus</h3>
+        <p>YouTube, Reddit, Instagram. Before you know it, two hours are gone and you've studied nothing.</p>
+      </div>
+      <div class="prob-card reveal reveal-d2">
+        <div class="prob-emoji">🤷</div>
+        <h3>You don't know what to study first</h3>
+        <p>You stare at five subjects, can't decide, so you do none. Decision fatigue is a real productivity killer.</p>
+      </div>
+      <div class="prob-card reveal reveal-d3">
+        <div class="prob-emoji">📉</div>
+        <h3>You have no idea if you're making progress</h3>
+        <p>You study for hours but feel like you're spinning your wheels. No data, no direction, no confidence.</p>
+      </div>
+    </div>
+    <div class="prob-bridge reveal">
+      <div class="prob-line"></div>
+      <p>StudyNest fixes all three — automatically.</p>
+      <div class="prob-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION SECTION -->
+<section class="solution-section">
+  <div class="container">
+    <div class="section-eye reveal">The fix</div>
+    <h2 class="section-h2 reveal reveal-d1">Your personal AI study system,<br /><em>right in your browser</em></h2>
+    <p class="section-sub reveal reveal-d2">StudyNest stays with you while you study. It's not another app you have to remember to open — it's always there, always smart.</p>
+    <div class="solution-pillars">
+      <div class="sol-pillar reveal reveal-d1">
+        <div class="sol-num">01</div>
+        <div class="sol-content">
+          <h3>AI tells you <em>exactly</em> what to study</h3>
+          <p>Based on your schedule, past sessions, and upcoming exams, the AI surfaces what matters most — so you never waste time deciding.</p>
+        </div>
+      </div>
+      <div class="sol-pillar reveal reveal-d2">
+        <div class="sol-num">02</div>
+        <div class="sol-content">
+          <h3>Focus mode blocks <em>every</em> distraction</h3>
+          <p>One click activates a force-field around your study time. Distracting sites get blocked, your Pomodoro timer starts, and your streak builds.</p>
+        </div>
+      </div>
+      <div class="sol-pillar reveal reveal-d3">
+        <div class="sol-num">03</div>
+        <div class="sol-content">
+          <h3>Analytics show your <em>real</em> progress</h3>
+          <p>See daily study hours, streak calendars, XP earned, and subject breakdowns. Progress you can see is progress that keeps happening.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-eye reveal">Everything included free</div>
+    <h2 class="section-h2 reveal reveal-d1">One extension.<br /><em>Your entire study system.</em></h2>
+    <div class="feat-grid">
+      <div class="feat reveal reveal-d1"><div class="feat-icon">🖍️</div><h3>Highlight &amp; Save</h3><p>Select text anywhere, pick a color, save to a folder — with AI summary in one click.</p></div>
+      <div class="feat reveal reveal-d2"><div class="feat-icon">🎯</div><h3>Focus Mode</h3><p>Block distracting sites + Pomodoro timer. StudyNest stays with you while you study.</p></div>
+      <div class="feat reveal reveal-d3"><div class="feat-icon">🤖</div><h3>AI Assistant</h3><p>Chat, summarize, generate flashcards and study plans — without leaving Chrome.</p></div>
+      <div class="feat reveal reveal-d1"><div class="feat-icon">🃏</div><h3>Flashcards</h3><p>Create or AI-generate decks organized by subject. Built-in spaced repetition.</p></div>
+      <div class="feat reveal reveal-d2"><div class="feat-icon">📊</div><h3>Progress Tracking</h3><p>Daily heatmaps, XP system, streaks, leaderboards — see real progress every day.</p></div>
+      <div class="feat reveal reveal-d3"><div class="feat-icon">🎵</div><h3>Study Music</h3><p>Curated lo-fi playlists for focus, directly inside the extension.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="container">
+    <div class="section-eye reveal">Dead simple</div>
+    <h2 class="section-h2 reveal reveal-d1">Go from install to<br /><em>studying in 60 seconds</em></h2>
+    <div class="how-steps">
+      <div class="how-step reveal reveal-d1">
+        <div class="how-step-num">1</div>
+        <div class="how-step-body">
+          <h3>Add StudyNest to Chrome</h3>
+          <p>One click. No sign-up required. The extension appears instantly in your toolbar — ready to use immediately.</p>
+        </div>
+        <div class="how-connector"></div>
+      </div>
+      <div class="how-step reveal reveal-d2">
+        <div class="how-step-num">2</div>
+        <div class="how-step-body">
+          <h3>Tell it your subjects &amp; goals</h3>
+          <p>Add your classes, upcoming exams, and tasks. Takes 2 minutes. The AI does the rest — building your priority list automatically.</p>
+        </div>
+        <div class="how-connector"></div>
+      </div>
+      <div class="how-step reveal reveal-d3">
+        <div class="how-step-num">3</div>
+        <div class="how-step-body">
+          <h3>Study, track, and improve</h3>
+          <p>Start focus sessions, highlight content, chat with AI, earn XP. Watch your progress compound day over day.</p>
+        </div>
+      </div>
+    </div>
+    <div class="how-cta reveal">
+      <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener" class="btn btn-primary btn-lg">Start in 60 seconds — Free</a>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <div class="container">
+    <div class="section-eye reveal">★★★★★ 2,847 five-star reviews · Trusted by 50,000+ students</div>
+    <h2 class="section-h2 reveal reveal-d1">Students who<br /><em>actually improved</em></h2>
+    <div class="trust-bar reveal reveal-d2">
+      <div class="tb-item"><strong>50,000+</strong><span>Weekly active users</span></div>
+      <div class="tb-item"><strong>4.9 / 5 ★</strong><span>Chrome Web Store</span></div>
+      <div class="tb-item"><strong>2,847</strong><span>Five-star reviews</span></div>
+      <div class="tb-item"><strong>#1</strong><span>AI Study Extension</span></div>
+    </div>
+    <div class="reviews-grid">
+      <blockquote class="rv reveal reveal-d1"><div class="rv-stars">★★★★★</div><p>"From barely passing to a 3.8 GPA in one semester. The AI planner showed me exactly what to focus on."</p><footer><div class="rv-av" style="background:#C49A72">SM</div><div><strong>Sofia M.</strong><span>Pre-Med, U of Michigan</span></div></footer></blockquote>
+      <blockquote class="rv reveal reveal-d2"><div class="rv-stars">★★★★★</div><p>"I get more done in 90 minutes than I used to in a whole day. Deleted every other productivity app."</p><footer><div class="rv-av" style="background:#8B5E3C">JK</div><div><strong>James K.</strong><span>CS, UCL London</span></div></footer></blockquote>
+      <blockquote class="rv reveal reveal-d3"><div class="rv-stars">★★★★★</div><p>"Highlights on Wikipedia automatically go to folders and become flashcards. My whole revision system is here."</p><footer><div class="rv-av" style="background:#A07850">AR</div><div><strong>Aisha R.</strong><span>A-Level Student, UK</span></div></footer></blockquote>
+      <blockquote class="rv reveal reveal-d1"><div class="rv-stars">★★★★★</div><p>"47 days without missing a session. I literally cannot break the streak now. The gamification works."</p><footer><div class="rv-av" style="background:#6B4A2A">LT</div><div><strong>Lucas T.</strong><span>MBA, IE Business School</span></div></footer></blockquote>
+      <blockquote class="rv reveal reveal-d2"><div class="rv-stars">★★★★★</div><p>"As a teacher I recommended this to my whole class. AI summaries save my students hours every week."</p><footer><div class="rv-av" style="background:#5C3D22">RP</div><div><strong>Dr. Rachel P.</strong><span>Biology Teacher</span></div></footer></blockquote>
+      <blockquote class="rv reveal reveal-d3"><div class="rv-stars">★★★★★</div><p>"Open Chrome and it quietly keeps you on track. No setup, no learning curve. Instantly useful."</p><footer><div class="rv-av" style="background:#7A5230">MH</div><div><strong>Marcus H.</strong><span>Law, U of Sydney</span></div></footer></blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-eye reveal">Simple pricing</div>
+    <h2 class="section-h2 reveal reveal-d1">Start free.<br /><em>Upgrade when ready.</em></h2>
+    <div class="price-grid">
+      <div class="price-card reveal reveal-d1">
+        <div class="pc-name">Free</div>
+        <div class="pc-price"><span class="pc-amt">$0</span><span class="pc-per">/forever</span></div>
+        <p>Everything you need to build a study habit.</p>
+        <ul>
+          <li>✓ Highlights &amp; folder organization</li>
+          <li>✓ Pomodoro focus timer</li>
+          <li>✓ Flashcard creator</li>
+          <li>✓ Progress tracking &amp; streaks</li>
+          <li>✓ AI chat (20 messages/day)</li>
+          <li>✓ Study music player</li>
+        </ul>
+        <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener" class="btn btn-outline" style="width:100%;justify-content:center">Add to Chrome — Free</a>
+      </div>
+      <div class="price-card price-featured reveal reveal-d2">
+        <div class="pc-badge">Most Popular</div>
+        <div class="pc-name">Pro</div>
+        <div class="pc-price"><span class="pc-amt">$4</span><span class="pc-per">.99/month</span></div>
+        <p>Unlock the full AI study system.</p>
+        <ul>
+          <li>✓ Everything in Free</li>
+          <li>✓ <strong>Unlimited AI conversations</strong></li>
+          <li>✓ Advanced analytics &amp; heatmaps</li>
+          <li>✓ AI study schedule generation</li>
+          <li>✓ Export flashcards to Anki</li>
+          <li>✓ Priority AI response speed</li>
+        </ul>
+        <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;justify-content:center">Try Pro — 7 Days Free</a>
+        <p class="pc-note">No credit card required</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ SECTION -->
+<section class="faq-section">
+  <div class="container faq-inner">
+    <div class="section-eye reveal">Questions</div>
+    <h2 class="section-h2 reveal reveal-d1">Frequently asked</h2>
+    <div class="faq-list">
+      <details class="faq-item reveal reveal-d1">
+        <summary>Is StudyNest really free?</summary>
+        <p>Yes. The core features — planner, focus mode, highlights, flashcards, progress tracking, and AI chat (limited) — are completely free forever. Premium unlocks unlimited AI and advanced analytics.</p>
+      </details>
+      <details class="faq-item reveal reveal-d2">
+        <summary>Does it work on all websites?</summary>
+        <p>Yes. StudyNest works across all websites — Wikipedia, course platforms, news sites, PDFs in Chrome, Google Docs, and more. The highlight and summarize feature works anywhere you can select text.</p>
+      </details>
+      <details class="faq-item reveal reveal-d3">
+        <summary>How is the AI powered?</summary>
+        <p>StudyNest uses state-of-the-art large language models to power its AI chat, summarization, and flashcard generation. Your data is processed securely and never sold to third parties.</p>
+      </details>
+      <details class="faq-item reveal reveal-d1">
+        <summary>Can I use it without creating an account?</summary>
+        <p>Absolutely. Install the extension and start using it immediately. Creating an account lets you sync your data across devices and unlocks the full feature set.</p>
+      </details>
+      <details class="faq-item reveal reveal-d2">
+        <summary>Is my study data private?</summary>
+        <p>Yes. Your highlights, notes, and flashcards are stored locally on your device by default. Cloud sync is fully encrypted. We never sell your data.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="fc-glow-1"></div><div class="fc-glow-2"></div>
+  <div class="container fc-inner">
+    <div class="fc-icon reveal">
+      <img src="assets/icon.png" alt="StudyNest" style="width:72px;height:72px;border-radius:18px;box-shadow:0 12px 40px rgba(0,0,0,.2)" onerror="this.outerHTML='<span style=font-size:4rem>🪺</span>'" />
+    </div>
+    <h2 class="fc-h2 reveal reveal-d1">Your best semester<br /><em>starts today</em></h2>
+    <p class="fc-sub reveal reveal-d2">Join 50,000+ students who stopped procrastinating and started making real progress. Free forever. Installs in 10 seconds.</p>
+    <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener" class="btn btn-primary btn-xl reveal reveal-d3">
+      <svg width="22" height="22" viewBox="0 0 20 20" fill="none"><path d="M10 2C5.58 2 2 5.58 2 10s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.4A6.4 6.4 0 113.6 10 6.4 6.4 0 0110 16.4z" fill="white" opacity=".3"/><path d="M10 3.6a6.4 6.4 0 016.4 6.4H10V3.6z" fill="white"/><path d="M10 10l-4.4 7.6A6.4 6.4 0 013.6 10H10z" fill="white" opacity=".7"/><path d="M10 10l4.4 7.6a6.4 6.4 0 01-8.8 0L10 10z" fill="white" opacity=".5"/></svg>
+      Add StudyNest to Chrome — It's Free
+    </a>
+    <p class="fc-note reveal reveal-d3">Works on Chrome · Edge · Brave · Opera · No account needed</p>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="foot-logo">
+      <img src="assets/icon.png" alt="StudyNest" style="width:20px;height:20px;border-radius:4px" onerror="this.outerHTML='🪺'" />
+      StudyNest
+    </div>
+    <nav class="foot-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+      <a href="#">Blog</a>
+      <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener">Chrome Store ↗</a>
+    </nav>
+    <p class="foot-copy">© 2025 StudyNest. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Mobile sticky bar -->
+<div class="sticky-bar" id="stickyBar">
+  <img src="assets/icon.png" alt="" style="width:30px;height:30px;border-radius:7px;flex-shrink:0" onerror="this.outerHTML='🪺'" />
+  <span>StudyNest — Free Chrome Extension</span>
+  <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener" class="btn btn-primary" style="flex-shrink:0">Install Free</a>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
