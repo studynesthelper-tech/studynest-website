@@ -150,9 +150,6 @@
     }
     .confetti-piece {
       position: absolute;
-      width: 8px;
-      height: 8px;
-      border-radius: 2px;
       animation: confettiFall linear forwards;
     }
     @keyframes confettiFall {
@@ -176,11 +173,33 @@
       color: var(--coffee);
     }
     .nav-icon { width: 28px; height: 28px; }
+    .countdown-wrap {
+      margin-bottom: 16px;
+    }
+    .countdown-bar-track {
+      background: var(--latte);
+      border-radius: 20px;
+      height: 5px;
+      width: 100%;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .countdown-bar-fill {
+      height: 100%;
+      background: var(--coffee);
+      border-radius: 20px;
+      width: 100%;
+      transition: width 1s linear;
+    }
+    .countdown-text {
+      font-size: 12px;
+      color: var(--ink-l);
+      font-family: 'Bricolage Grotesque', sans-serif;
+    }
   </style>
 </head>
 <body>
 
-<!-- Confetti canvas -->
 <div class="confetti" id="confetti"></div>
 
 <div class="status-page">
@@ -212,6 +231,14 @@
       </div>
     </div>
 
+    <!-- Countdown bar -->
+    <div class="countdown-wrap">
+      <div class="countdown-bar-track">
+        <div class="countdown-bar-fill" id="countdown-bar"></div>
+      </div>
+      <div class="countdown-text" id="countdown-text">This tab closes in 5 seconds…</div>
+    </div>
+
     <a href="https://chrome.google.com/webstore" target="_blank" class="btn-success">
       ⭐ Open StudyNest Extension
     </a>
@@ -221,7 +248,7 @@
 </div>
 
 <script>
-  // Confetti animation
+  // Confetti
   const confettiEl = document.getElementById('confetti');
   const colors = ['#8B5E3C','#C49A72','#DFD0BB','#2D9E6B','#F59E0B','#EF4444'];
   for (let i = 0; i < 60; i++) {
@@ -239,6 +266,31 @@
     `;
     confettiEl.appendChild(piece);
   }
+
+  // Auto-close countdown
+  let secs = 5;
+  const bar  = document.getElementById('countdown-bar');
+  const text = document.getElementById('countdown-text');
+
+  // Start bar shrink after first tick
+  setTimeout(() => {
+    bar.style.width = '0%';
+  }, 100);
+
+  const timer = setInterval(() => {
+    secs--;
+    if (secs <= 0) {
+      clearInterval(timer);
+      text.textContent = 'Closing tab…';
+      window.close();
+      // Fallback if window.close() is blocked
+      setTimeout(() => {
+        text.textContent = 'You can close this tab now.';
+      }, 500);
+    } else {
+      text.textContent = `This tab closes in ${secs} second${secs !== 1 ? 's' : ''}…`;
+    }
+  }, 1000);
 </script>
 
 </body>
