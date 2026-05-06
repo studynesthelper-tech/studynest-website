@@ -4,14 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="google-site-verification" content="prKCSMo2TBW13Zq3YUXMZnzzGLJk_jjMHZ3oj0NJ6gE" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Study Planner Chrome Extension — Know Exactly What to Study Next</title>
-  <meta name="description" content="Tell StudyNest what you're studying. Get a clear daily AI action plan in seconds — free Chrome extension, no account needed, installs in 10 seconds." />
-  <meta name="keywords" content="AI study planner chrome extension, what to study next AI, study action plan, student AI planner, chrome study extension, AI homework planner" />
+  <title>AI Study Plan Generator — Stop Wasting Time Figuring Out What to Study | StudyNest</title>
+  <meta name="description" content="Type your subject. StudyNest AI generates a personalised daily study plan in seconds. Free Chrome extension — no account needed." />
   <link rel="canonical" href="https://www.studynest.co/" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.studynest.co/" />
-  <meta property="og:title" content="StudyNest — AI Study Chrome Extension" />
-  <meta property="og:description" content="The Chrome extension that makes studying actually work. Free." />
+  <meta property="og:title" content="AI Study Plan Generator — StudyNest" />
+  <meta property="og:description" content="Stop wasting time figuring out what to study. Get a personalised study plan in seconds." />
   <meta property="og:image" content="https://www.studynest.co/assets/og-image.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"StudyNest","url":"https://www.studynest.co/","operatingSystem":"Chrome","applicationCategory":"EducationalApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
@@ -21,205 +20,264 @@
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* ── Transparency box in hero ── */
-    .hero-transparency{
-      display:flex;align-items:flex-start;gap:10px;
-      background:rgba(139,94,60,.08);border:1px solid rgba(139,94,60,.2);
-      border-radius:12px;padding:12px 16px;margin:16px 0 0;
-      font-size:13.5px;color:var(--ink-m);line-height:1.6;max-width:520px;
-    }
-    .ht-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+  /* ── Reveal system (must be self-contained, not rely on styles.css) ── */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.is-visible{opacity:1;transform:none}
+  .reveal-d1{transition-delay:.1s}
+  .reveal-d2{transition-delay:.2s}
+  .reveal-d3{transition-delay:.3s}
+  .reveal-d4{transition-delay:.4s}
 
-    /* ── Hero 3-step flow ── */
-    .hero-flow{
-      display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-      margin:20px 0 24px;
-    }
-    .hf-step{
-      display:flex;align-items:center;gap:8px;
-      background:white;border:1px solid rgba(139,94,60,.15);
-      border-radius:30px;padding:7px 14px;
-      font-size:13px;font-weight:600;color:var(--ink);
-      box-shadow:0 2px 8px rgba(0,0,0,.05);
-    }
-    .hf-step-active{background:var(--coffee) !important;color:white !important;border-color:var(--coffee) !important;transform:scale(1.06);transition:transform .2s ease,background .3s ease;}
-    .hf-step-active .hf-num{background:rgba(255,255,255,.2) !important;color:white !important;}
-    .hf-step{transition:background .3s ease,color .3s ease,border-color .3s ease,transform .2s ease;}
-    .hf-num{
-      width:20px;height:20px;border-radius:50%;
-      background:var(--latte);color:var(--coffee);
-      font-size:11px;font-weight:800;
-      display:flex;align-items:center;justify-content:center;flex-shrink:0;
-    }
-    .hf-step-result .hf-num{background:rgba(255,255,255,.2);color:white}
-    .hf-arrow{font-size:16px;color:var(--coffee);opacity:.5;font-weight:700}
+  /* ── Guarantee hero is never a blank grid (local file fallback) ── */
+  .hero{min-height:100vh;display:flex;align-items:center}
+  .hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;width:100%;padding:80px 0}
+  .hero-copy{display:flex;flex-direction:column;align-items:flex-start}
+  @media(max-width:900px){
+    .hero-inner{grid-template-columns:1fr}
+    .hero-visual{display:none}
+  }
 
-    /* ── How it's free note near pricing ── */
-    .hiw-free-note{
-      display:flex;align-items:flex-start;gap:10px;
-      background:rgba(139,94,60,.06);border:1px solid rgba(139,94,60,.15);
-      border-radius:12px;padding:14px 18px;margin:0 auto 40px;
-      font-size:13.5px;color:var(--ink-m);line-height:1.6;max-width:640px;text-align:left;
-    }
+  /* Nav */
+  .nav-cta-text { display:none }
 
-    /* ── AI Planner Section ── */
-    .ai-planner-section{padding:100px 0;background:var(--cream)}
-    .aip-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
-    .aip-steps{margin:28px 0 32px;display:flex;flex-direction:column;gap:16px}
-    .aip-step{display:flex;align-items:flex-start;gap:14px}
-    .aip-step-num{
-      width:28px;height:28px;border-radius:50%;
-      background:var(--coffee);color:white;font-size:12px;font-weight:800;
-      display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;
-    }
-    .aip-step strong{display:block;font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:2px}
-    .aip-step p{font-size:13px;color:var(--ink-l);margin:0}
+  /* Hero tweaks */
+  .hero-h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.12; }
+  .hero-sub { font-size: 17px; color: var(--ink-m); max-width: 480px; line-height: 1.7; margin: 16px 0 8px; }
+  .hero-emotional {
+    font-size: 15px; font-weight: 600; color: var(--coffee);
+    margin: 0 0 24px; max-width: 420px; line-height: 1.5;
+  }
+  .hero-trust { font-size: 13px; color: var(--ink-l); margin-top: 12px; }
+  .hero-btn-wrap { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+  .hero-btn-note { font-size: 12px; color: var(--ink-l); padding-left: 4px; }
 
-    /* Phone mockup */
-    .aip-visual{display:flex;justify-content:center}
-    .aip-phone-wrap{position:relative;width:300px;min-height:460px}
-    .aip-phone{
-      background:#7a4828;border-radius:22px;padding:20px 18px 24px;
-      width:300px;box-shadow:0 32px 80px rgba(60,30,10,.35),0 8px 24px rgba(60,30,10,.2);
-      position:relative;box-sizing:border-box;
-      transition:opacity .4s ease,transform .4s ease;
-    }
-    .aip-phone.aip-fade-out{opacity:0;transform:scale(.96) translateY(-10px);pointer-events:none}
+  /* Estimated time label in demo */
+  .hpd-est-time {
+    font-size: 10.5px; color: #8B5E3C; font-weight: 600;
+    text-align: center; padding: 7px 0 2px;
+    opacity: 0.8;
+  }
 
-    /* Output screen */
-    .aip-phone-output{
-      position:absolute;top:0;left:0;width:100%;
-      background:#f5ede3;border-radius:22px;padding:20px 18px 24px;
-      box-shadow:0 32px 80px rgba(60,30,10,.35),0 8px 24px rgba(60,30,10,.2);
-      opacity:0;transform:translateY(18px) scale(.97);
-      transition:opacity .5s ease .1s,transform .5s ease .1s;
-      pointer-events:none;box-sizing:border-box;
-    }
-    .aip-phone-output.aip-visible{opacity:1;transform:none;pointer-events:auto}
+  /* Demo card */
+  .hero-planner-demo {
+    background: white; border-radius: 18px;
+    box-shadow: 0 24px 80px rgba(60,30,10,.16), 0 4px 16px rgba(60,30,10,.08);
+    overflow: hidden; width: 420px; max-width: 100%;
+    border: 1px solid rgba(139,94,60,.1);
+  }
+  .hpd-topbar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 14px; background: #f9f5f0;
+    border-bottom: 1px solid #ede3d3;
+  }
+  .hpd-dots { display: flex; gap: 5px; }
+  .hpd-dots span { width: 10px; height: 10px; border-radius: 50%; }
+  .hpd-dots span:nth-child(1){background:#ff6057}
+  .hpd-dots span:nth-child(2){background:#ffbd2e}
+  .hpd-dots span:nth-child(3){background:#28c840}
+  .hpd-title { flex: 1; font-size: 11px; color: #888; font-weight: 500; text-align: center; }
+  .hpd-badge {
+    font-size: 9px; font-weight: 700; background: #f0e8e0; color: #8B5E3C;
+    border: 1px solid #C49A72; border-radius: 20px; padding: 2px 8px;
+    transition: background .3s, color .3s, border-color .3s;
+  }
+  .hpd-screen { padding: 20px; }
+  .hpd-output { display: none; background: #f5ede3; }
+  .hpd-output.hpd-show { display: block; }
+  .hpd-hidden { display: none !important; }
+  .hpd-screen-title { font-size: 18px; font-weight: 800; color: #3d2010; font-family: var(--fs); margin-bottom: 3px; }
+  .hpd-screen-sub { font-size: 12px; color: #aaa; margin-bottom: 16px; }
+  .hpd-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+  .hpd-field { display: flex; flex-direction: column; gap: 4px; }
+  .hpd-field-row { display: flex; gap: 10px; }
+  .hpd-label { font-size: 9px; font-weight: 700; letter-spacing: .7px; color: #aaa; }
+  .hpd-input {
+    font-size: 13px; color: #333; padding: 8px 10px;
+    border: 1.5px solid #eee; border-radius: 8px; background: #fafafa;
+    min-height: 36px; line-height: 1.4;
+    transition: border-color .25s, background .25s;
+  }
+  .hpd-input.hpd-typing { border-color: #C49A72; background: #fff; }
+  .hpd-input.hpd-filled { border-color: #6ab04c; background: #f7fff4; }
+  .hpd-muted { color: #bbb; font-size: 12px; }
+  .hpd-cursor { animation: blink .8s step-end infinite; color: #C49A72; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .hpd-select {
+    font-size: 12px; color: #bbb; padding: 8px 10px;
+    border: 1.5px solid #eee; border-radius: 8px; background: #fafafa;
+    display: flex; justify-content: space-between;
+    transition: border-color .25s, color .25s;
+  }
+  .hpd-select.hpd-filled { color: #333; border-color: #6ab04c; background: #f7fff4; }
+  .hpd-generate-btn {
+    width: 100%; padding: 13px; border-radius: 11px; border: none;
+    background: linear-gradient(135deg, #8B5E3C, #C49A72);
+    color: white; font-size: 14px; font-weight: 800;
+    cursor: pointer; position: relative; overflow: hidden; font-family: var(--fs);
+  }
+  .hpd-shimmer {
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+    transform: translateX(-100%);
+  }
+  .hpd-generate-btn.hpd-loading .hpd-shimmer { animation: hpdShimmer .7s ease infinite; }
+  @keyframes hpdShimmer { to { transform: translateX(200%); } }
+  /* Output */
+  .hpd-out-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .hpd-out-back { font-size: 11px; color: #8B5E3C; font-weight: 600; margin-bottom: 4px; }
+  .hpd-out-day { font-size: 20px; font-weight: 800; color: #3d2010; font-family: var(--fs); margin-bottom: 2px; }
+  .hpd-out-sub { font-size: 11px; color: #8B5E3C; }
+  .hpd-out-badge { font-size: 10px; font-weight: 700; background: #e8f5e9; color: #388e3c; border: 1px solid #a5d6a7; border-radius: 20px; padding: 4px 10px; white-space: nowrap; margin-top: 4px; }
+  .hpd-prog-bar { height: 4px; background: #e8ddd4; border-radius: 4px; margin-bottom: 3px; }
+  .hpd-prog-fill { height: 4px; background: #C49A72; border-radius: 4px; width: 0%; transition: width .5s ease; }
+  .hpd-prog-label { font-size: 10px; color: #bbb; text-align: right; margin-bottom: 12px; }
+  .hpd-start-btn { width: 100%; padding: 11px; border-radius: 9px; border: none; background: #4CAF50; color: white; font-size: 13px; font-weight: 800; margin-bottom: 12px; cursor: pointer; transition: background .4s; }
+  .hpd-tasks-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 9px; font-weight: 700; letter-spacing: .7px; color: #888; }
+  .hpd-tasks-count { background: #f0e8e0; color: #8B5E3C; padding: 2px 8px; border-radius: 20px; }
+  .hpd-task {
+    display: flex; align-items: flex-start; gap: 8px;
+    background: white; border-radius: 9px; padding: 9px 10px; margin-bottom: 6px;
+    opacity: 0; transform: translateY(8px); transition: opacity .35s ease, transform .35s ease;
+  }
+  .hpd-task.hpd-in { opacity: 1; transform: none; }
+  .hpd-task.hpd-done .hpd-task-text { text-decoration: line-through; color: #bbb; }
+  .hpd-cb {
+    width: 15px; height: 15px; border-radius: 4px; border: 1.5px solid #ddd;
+    flex-shrink: 0; margin-top: 1px; position: relative;
+    transition: background .2s, border-color .2s;
+  }
+  .hpd-cb.hpd-checked { background: #4CAF50; border-color: #4CAF50; }
+  .hpd-cb.hpd-checked::after {
+    content: ''; position: absolute; left: 3px; top: 1px;
+    width: 5px; height: 8px; border: 2px solid white;
+    border-top: none; border-left: none; transform: rotate(45deg);
+  }
+  .hpd-task-text { font-size: 11px; color: #444; line-height: 1.5; transition: color .3s; }
+  .hpd-time { color: #aaa; }
+  .hpd-momentum { font-size: 10px; color: #4CAF50; font-weight: 700; text-align: center; margin: 8px 0 0; opacity: 0; transition: opacity .5s; }
 
-    .aip-phone-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-    .aip-ph-back{font-size:12px;color:rgba(255,255,255,.7)}
-    .aip-ph-badge{
-      font-size:9px;font-weight:700;letter-spacing:.8px;
-      background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);
-      border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 8px;
-    }
-    .aip-phone-title{font-size:20px;font-weight:800;color:white;margin-bottom:4px;font-family:var(--fs)}
-    .aip-phone-sub{font-size:12px;color:rgba(255,255,255,.6);margin-bottom:16px}
-    .aip-form{background:white;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
-    .aip-field{display:flex;flex-direction:column;gap:4px}
-    .aip-field-label{font-size:9px;font-weight:700;letter-spacing:.8px;color:#888}
-    .aip-req{color:#E55}.aip-opt{color:#aaa;font-weight:400}
-    .aip-field-input{
-      font-size:12px;color:#333;padding:7px 10px;
-      border:1.5px solid #eee;border-radius:8px;background:#fafafa;
-      transition:border-color .25s,background .25s;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
-    }
-    .aip-field-input.aip-typing{border-color:#C49A72;background:#fff;color:#333}
-    .aip-field-input.aip-done{border-color:#6ab04c;background:#f7fff4;color:#333}
-    .aip-muted{color:#bbb}
-    .aip-field-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .aip-field-select{
-      font-size:12px;color:#bbb;padding:7px 10px;
-      border:1.5px solid #eee;border-radius:8px;background:#fafafa;
-      display:flex;justify-content:space-between;transition:border-color .25s,color .25s;
-    }
-    .aip-field-select.aip-done{color:#333;border-color:#6ab04c;background:#f7fff4}
-    .aip-generate-btn{
-      width:100%;margin-top:14px;padding:14px;border-radius:12px;border:none;
-      background:linear-gradient(135deg,#8B5E3C,#C49A72);
-      color:white;font-size:14px;font-weight:800;font-family:var(--fs);
-      cursor:pointer;letter-spacing:.2px;position:relative;overflow:hidden;
-    }
-    .aip-btn-shimmer{
-      position:absolute;inset:0;
-      background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);
-      transform:translateX(-100%);
-    }
-    .aip-generate-btn.aip-loading .aip-btn-shimmer{animation:aipShimmer .7s ease infinite}
-    @keyframes aipShimmer{to{transform:translateX(200%)}}
+  /* Float badge */
+  .hpd-float-badge {
+    position: absolute; top: -14px; right: 20px;
+    background: white; border-radius: 20px; padding: 6px 12px;
+    font-size: 12px; font-weight: 600; color: #3d2010;
+    box-shadow: 0 4px 16px rgba(0,0,0,.1);
+    border: 1px solid rgba(139,94,60,.1);
+    opacity: 0; transform: translateY(6px);
+    transition: opacity .4s, transform .4s;
+  }
+  .hero-visual { position: relative; }
+  .hpd-float-badge.hpd-badge-show { opacity: 1; transform: none; }
 
-    /* Output screen */
-    .out-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-    .out-back{font-size:11px;color:#8B5E3C;font-weight:600}
-    .out-badge{font-size:9px;font-weight:700;letter-spacing:.6px;background:#fff3e0;color:#8B5E3C;border:1px solid #C49A72;border-radius:20px;padding:3px 8px;}
-    .out-day{font-size:21px;font-weight:800;color:#3d2010;font-family:var(--fs);margin-bottom:2px}
-    .out-sub{font-size:11px;color:#8B5E3C;margin-bottom:8px}
-    .out-prog-bar{height:4px;background:#e8ddd4;border-radius:4px;margin-bottom:3px}
-    .out-prog-fill{height:4px;background:#C49A72;border-radius:4px;width:0%;transition:width .6s ease}
-    .out-prog-label{font-size:10px;color:#bbb;text-align:right;margin-bottom:12px}
-    .out-start-btn{width:100%;padding:11px;border-radius:10px;border:none;background:#4CAF50;color:white;font-size:13px;font-weight:800;margin-bottom:12px;cursor:pointer;}
-    .out-tasks-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
-    .out-tasks-title{font-size:9px;font-weight:700;letter-spacing:.8px;color:#888}
-    .out-tasks-count{font-size:9px;font-weight:700;background:#f0e8e0;color:#8B5E3C;padding:2px 8px;border-radius:20px}
-    .out-task{
-      display:flex;align-items:flex-start;gap:8px;background:white;border-radius:10px;
-      padding:9px 10px;margin-bottom:5px;
-      opacity:0;transform:translateY(10px);transition:opacity .35s ease,transform .35s ease;
-    }
-    .out-task.out-in{opacity:1;transform:none}
-    .out-checkbox{width:15px;height:15px;border-radius:4px;border:1.5px solid #ddd;flex-shrink:0;margin-top:1px}
-    .out-task-text{font-size:10.5px;color:#444;line-height:1.5}
-    .out-momentum{font-size:10px;color:#C49A72;font-style:italic;margin:8px 0 6px;text-align:center}
-    .out-new-plan{width:100%;padding:9px;border-radius:10px;border:1.5px solid #e8ddd4;background:transparent;color:#8B5E3C;font-size:12px;font-weight:700;cursor:pointer;margin-bottom:6px}
-    .out-locked{background:#f9f3ee;border-radius:10px;padding:9px;font-size:10px;color:#aaa;text-align:center}
-    .out-locked strong{color:#C49A72}
+  /* ════════════════════════════════════════
+     HOW IT WORKS
+  ════════════════════════════════════════ */
+  .hiw-section { padding: 88px 0; background: white; }
+  .hiw-steps {
+    display: flex; align-items: flex-start; gap: 0;
+    margin: 52px 0 44px;
+  }
+  .hiw-step {
+    flex: 1; text-align: center; padding: 0 20px;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .hiw-step-num {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--coffee); color: white;
+    font-size: 15px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .hiw-step-icon { font-size: 32px; }
+  .hiw-step h3 { font-size: 17px; font-weight: 700; color: var(--ink); margin: 0 0 6px; font-family: var(--fb); }
+  .hiw-step p { font-size: 14px; color: var(--ink-m); line-height: 1.6; margin: 0; }
+  .hiw-connector { font-size: 24px; color: var(--coffee); opacity: .25; flex-shrink: 0; margin-top: 48px; font-weight: 700; }
+  .hiw-cta { display: flex; align-items: center; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .hiw-cta-note { font-size: 13px; color: var(--ink-l); }
 
-    @media(max-width:900px){
-      .aip-inner{grid-template-columns:1fr;gap:40px}
-      .aip-visual{order:-1}
-    }
+  /* ════════════════════════════════════════
+     TESTIMONIALS
+  ════════════════════════════════════════ */
+  .testi-section { padding: 88px 0; background: var(--latte); }
+  .testi-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; margin-top: 48px;
+  }
+  .testi-card {
+    background: white; border-radius: 16px; padding: 24px;
+    border: 1px solid rgba(139,94,60,.08);
+    box-shadow: 0 2px 12px rgba(0,0,0,.04);
+  }
+  .testi-stars { color: #F59E0B; font-size: 13px; margin-bottom: 12px; letter-spacing: 1px; }
+  .testi-quote { font-size: 14px; color: var(--ink); line-height: 1.65; margin: 0 0 16px; font-style: italic; }
+  .testi-author { display: flex; align-items: center; gap: 10px; }
+  .testi-av {
+    width: 32px; height: 32px; border-radius: 50%;
+    font-size: 12px; font-weight: 700; color: white;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .testi-name { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .testi-role { font-size: 12px; color: var(--ink-l); }
 
-    /* ── Font size fixes (min 12pt = 16px) ── */
-    .fc-note{font-size:14px !important}
-    .hero-trust{font-size:14px !important}
-    .hero-desc{font-size:15px !important}
-    .section-eye{font-size:12px !important}
-    .tb-item span{font-size:13px !important}
-    .prob-card p{font-size:14px !important}
-    .sol-content p{font-size:15px !important}
+  /* ════════════════════════════════════════
+     ALSO INCLUDES (secondary, minimal)
+  ════════════════════════════════════════ */
+  .also-section { padding: 64px 0; background: white; border-top: 1px solid var(--latte); }
+  .also-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+  .also-title { font-size: 15px; font-weight: 700; color: var(--ink-l); margin-bottom: 20px; text-transform: uppercase; letter-spacing: .8px; }
+  .also-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .also-chip {
+    font-size: 13px; color: var(--ink-m); background: var(--latte);
+    border: 1px solid rgba(139,94,60,.12); border-radius: 20px;
+    padding: 7px 16px; font-weight: 500;
+  }
 
-    /* ── Feature hero card ── */
-    .feat-hero{
-      display:flex;align-items:flex-start;gap:28px;
-      background:linear-gradient(135deg,#3d1f0a 0%,#7a4828 100%);
-      border-radius:20px;padding:36px 40px;margin-bottom:20px;
-      color:white;position:relative;overflow:hidden;
-    }
-    .feat-hero::before{
-      content:'';position:absolute;top:-40px;right:-40px;
-      width:200px;height:200px;border-radius:50%;
-      background:rgba(255,255,255,.04);
-    }
-    .feat-hero-icon{
-      font-size:36px;flex-shrink:0;
-      width:64px;height:64px;border-radius:16px;
-      background:rgba(255,255,255,.12);
-      display:flex;align-items:center;justify-content:center;
-    }
-    .feat-hero-tag{
-      font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
-      color:rgba(255,255,255,.5);margin-bottom:6px;
-    }
-    .feat-hero-title{font-size:24px;font-weight:800;margin:0 0 10px;font-family:var(--fs)}
-    .feat-hero-desc{font-size:15px;line-height:1.7;color:rgba(255,255,255,.8);margin:0 0 20px;max-width:560px}
-    .feat-hero-proof{display:flex;flex-wrap:wrap;gap:8px}
-    .fhp-item{
-      font-size:12.5px;font-weight:600;
-      background:rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.15);
-      border-radius:20px;padding:4px 12px;color:rgba(255,255,255,.9);
-    }
-    .feat-also-label{
-      font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
-      color:var(--ink-l);margin:32px 0 16px;
-    }
-    .feat-grid-sm{margin-top:0}
-    @media(max-width:640px){
-      .feat-hero{flex-direction:column;gap:16px;padding:24px 20px}
-      .hero-flow{flex-direction:column;align-items:flex-start}
-      .hf-arrow{transform:rotate(90deg)}
-    }
+  /* ════════════════════════════════════════
+     FINAL CTA
+  ════════════════════════════════════════ */
+  .final-cta-v2 { padding: 100px 0; background: linear-gradient(135deg, #3d1f0a 0%, #7a4828 100%); text-align: center; }
+  .final-cta-v2 h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); color: white; font-family: var(--fs); font-weight: 800; margin-bottom: 12px; }
+  .final-cta-v2 h2 em { font-style: italic; color: #C49A72; }
+  .final-cta-v2 p { font-size: 16px; color: rgba(255,255,255,.7); margin-bottom: 36px; }
+  .final-cta-v2 .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-white { background: white; color: var(--coffee); font-weight: 800; border-radius: 12px; padding: 14px 28px; font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: transform .2s, box-shadow .2s; }
+  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+  .btn-outline-white { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,.4); font-weight: 700; border-radius: 12px; padding: 13px 28px; font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: border-color .2s, background .2s; }
+  .btn-outline-white:hover { border-color: white; background: rgba(255,255,255,.08); }
+  .final-cta-note { font-size: 13px; color: rgba(255,255,255,.45); margin-top: 20px; }
+
+  /* ════════════════════════════════════════
+     PRICING (simplified)
+  ════════════════════════════════════════ */
+  .pricing-simple { padding: 88px 0; background: var(--cream); }
+  .pricing-simple-inner { max-width: 680px; margin: 0 auto; }
+  .pricing-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 44px; }
+  .pc { background: white; border-radius: 18px; padding: 32px 28px; border: 1.5px solid rgba(139,94,60,.12); }
+  .pc.pc-pro { border-color: var(--coffee); position: relative; overflow: hidden; }
+  .pc.pc-pro::before { content: 'MOST POPULAR'; position: absolute; top: 14px; right: -24px; background: var(--coffee); color: white; font-size: 9px; font-weight: 800; letter-spacing: 1px; padding: 3px 36px; transform: rotate(45deg); }
+  .pc-label { font-size: 11px; font-weight: 700; letter-spacing: .8px; color: var(--ink-l); text-transform: uppercase; margin-bottom: 8px; }
+  .pc-price { font-size: 36px; font-weight: 800; color: var(--ink); font-family: var(--fs); margin-bottom: 4px; }
+  .pc-price span { font-size: 16px; font-weight: 500; color: var(--ink-l); }
+  .pc-desc { font-size: 13px; color: var(--ink-l); margin-bottom: 20px; line-height: 1.5; }
+  .pc-items { list-style: none; padding: 0; margin: 0 0 24px; display: flex; flex-direction: column; gap: 9px; }
+  .pc-items li { font-size: 13.5px; color: var(--ink-m); display: flex; align-items: center; gap: 8px; }
+  .pc-items li::before { content: '✓'; color: #4CAF50; font-weight: 700; flex-shrink: 0; }
+  .pc-cta { display: block; width: 100%; padding: 12px; border-radius: 10px; text-align: center; font-size: 14px; font-weight: 700; text-decoration: none; border: none; cursor: pointer; }
+  .pc-cta-free { background: var(--latte); color: var(--coffee); }
+  .pc-cta-pro { background: var(--coffee); color: white; }
+
+  /* ════════════════════════════════════════
+     RESPONSIVE
+  ════════════════════════════════════════ */
+  @media(max-width: 900px) {
+    .hiw-steps { flex-direction: column; align-items: center; }
+    .hiw-connector { transform: rotate(90deg); margin: 0; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .pricing-cards { grid-template-columns: 1fr; }
+  }
+  @media(max-width: 640px) {
+    .hiw-section, .testi-section, .also-section, .pricing-simple { padding: 56px 0; }
+  }
   </style>
 </head>
 <body>
@@ -232,14 +290,12 @@
       <span>Study<em>Nest</em></span>
     </a>
     <nav class="nav-links">
-      <a href="/features">Features</a>
-      <a href="/screenshots">Screenshots</a>
-      <a href="/reviews">Reviews</a>
-      <a href="/pricing">Pricing</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="#pricing">Pricing</a>
     </nav>
     <a href="https://chromewebstore.google.com/detail/studynest-%E2%80%93-ai-study-plan/hekgdccoflelefibgbdhgmajaodmkgdl" target="_blank" rel="noopener" class="btn btn-nav">
-      <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><path d="M10 2C5.58 2 2 5.58 2 10s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.4A6.4 6.4 0 113.6 10 6.4 6.4 0 0110 16.4z" fill="currentColor" opacity=".4"/><path d="M10 3.6a6.4 6.4 0 016.4 6.4H10V3.6z" fill="currentColor"/><path d="M10 10l-4.4 7.6A6.4 6.4 0 013.6 10H10z" fill="currentColor" opacity=".7"/><path d="M10 10l4.4 7.6a6.4 6.4 0 01-8.8 0L10 10z" fill="currentColor" opacity=".5"/></svg>
-      Get AI Planner — Free
+      Generate My Study Plan
     </a>
   </div>
 </header>
@@ -265,91 +321,52 @@
       </div>
 
       <h1 class="hero-h1 reveal reveal-d1">
-        Know Exactly<br/>
-        <em>What to Study Next.</em>
+        Stop wasting time<br/>
+        <em>figuring out what to study.</em>
       </h1>
 
       <p class="hero-sub reveal reveal-d2">
-        Most students waste 20 minutes every session deciding where to start.<br/>
-        StudyNest's AI Planner ends that — tell it your subject, get a clear daily action plan in seconds.
+        Type your subject. StudyNest AI generates a personalised daily study plan in seconds — specific tasks, in order, ready to follow.
       </p>
 
-      <!-- The ONE flow — Empty → Action → Result -->
-      <div class="hero-flow reveal reveal-d2">
-        <div class="hf-step" id="hfStep1">
-          <span class="hf-num">1</span>
-          <span class="hf-text">Type your subject</span>
-        </div>
-        <span class="hf-arrow">→</span>
-        <div class="hf-step" id="hfStep2">
-          <span class="hf-num">2</span>
-          <span class="hf-text">AI builds your plan</span>
-        </div>
-        <span class="hf-arrow">→</span>
-        <div class="hf-step" id="hfStep3">
-          <span class="hf-num">3</span>
-          <span class="hf-text">Start studying in seconds</span>
-        </div>
-      </div>
-      <script>
-      (function(){
-        var steps = [
-          document.getElementById('hfStep1'),
-          document.getElementById('hfStep2'),
-          document.getElementById('hfStep3')
-        ];
-        var cur = 0;
-        function highlight(i){
-          steps.forEach(function(s,idx){
-            s.classList.toggle('hf-step-active', idx === i);
-          });
-        }
-        highlight(0);
-        setInterval(function(){
-          cur = (cur + 1) % steps.length;
-          highlight(cur);
-        }, 1400);
-      })();
-      </script>
+      <p class="hero-emotional reveal reveal-d2">Stop feeling stuck — know exactly what to study today.</p>
 
       <div class="hero-btns reveal reveal-d3">
-        <a href="https://chromewebstore.google.com/detail/studynest-%E2%80%93-ai-study-plan/hekgdccoflelefibgbdhgmajaodmkgdl" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2C5.58 2 2 5.58 2 10s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.4A6.4 6.4 0 113.6 10 6.4 6.4 0 0110 16.4z" fill="white" opacity=".3"/><path d="M10 3.6a6.4 6.4 0 016.4 6.4H10V3.6z" fill="white"/><path d="M10 10l-4.4 7.6A6.4 6.4 0 013.6 10H10z" fill="white" opacity=".7"/><path d="M10 10l4.4 7.6a6.4 6.4 0 01-8.8 0L10 10z" fill="white" opacity=".5"/></svg>
-          Get the AI Planner — Free
+        <div class="hero-btn-wrap">
+          <a href="https://chromewebstore.google.com/detail/studynest-%E2%80%93-ai-study-plan/hekgdccoflelefibgbdhgmajaodmkgdl" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+            Add to Chrome — Start Your Study Plan
+          </a>
+          <span class="hero-btn-note">Works as a Chrome Extension</span>
+        </div>
+        <a href="#how-it-works" class="btn btn-ghost btn-lg">
+          See how it works →
         </a>
-        <a href="#ai-planner" class="btn btn-ghost btn-lg">See how it works →</a>
       </div>
 
-      <p class="hero-trust reveal reveal-d3">🔒 No account required · Works instantly · Free to install</p>
+      <p class="hero-trust reveal reveal-d3">🔒 Free to install · No account required · Works instantly</p>
     </div>
 
-    <!-- AI Planner focused hero demo -->
+    <!-- Demo -->
     <div class="hero-visual reveal reveal-d2">
+      <div class="hpd-float-badge" id="hpdFloatBadge">✓ Plan generated in 3 seconds</div>
       <div class="hero-planner-demo">
-
-        <!-- Demo header bar -->
         <div class="hpd-topbar">
           <div class="hpd-dots"><span></span><span></span><span></span></div>
-          <div class="hpd-title">
-            <img src="assets/icon.png" alt="" style="width:14px;height:14px;border-radius:3px;vertical-align:middle;margin-right:5px" onerror="this.style.display='none'" />
-            StudyNest — AI Study Planner
-          </div>
-          <div class="hpd-badge">✦ FREE</div>
+          <div class="hpd-title">StudyNest — AI Study Planner</div>
+          <div class="hpd-badge" id="hpdScreenLabel">✦ Free</div>
         </div>
 
-        <!-- SCREEN A: Input form -->
+        <!-- Input screen -->
         <div class="hpd-screen" id="hpdInput">
-          <div class="hpd-screen-header">
-            <div class="hpd-screen-title">What are you studying?</div>
-            <div class="hpd-screen-sub">Get clear daily tasks in seconds</div>
-          </div>
+          <div class="hpd-screen-title">What are you studying?</div>
+          <div class="hpd-screen-sub">AI will build your plan — takes 10 seconds</div>
           <div class="hpd-form">
             <div class="hpd-field">
               <div class="hpd-label">SUBJECT <span style="color:#e55">*</span></div>
               <div class="hpd-input" id="hpdSubject"><span class="hpd-cursor">|</span></div>
             </div>
             <div class="hpd-field">
-              <div class="hpd-label">WHAT'S CONFUSING YOU? <span style="color:#bbb;font-weight:400">(optional)</span></div>
+              <div class="hpd-label">WHAT'S CONFUSING YOU? <span style="color:#ccc;font-weight:400">(optional)</span></div>
               <div class="hpd-input hpd-muted" id="hpdConfuse">e.g. I don't understand mitosis…</div>
             </div>
             <div class="hpd-field-row">
@@ -365,144 +382,270 @@
           </div>
           <button class="hpd-generate-btn" id="hpdBtn">
             <span class="hpd-shimmer"></span>
-            <span id="hpdBtnTxt">✦ Generate My Action Plan</span>
+            <span id="hpdBtnTxt">Generate My Study Plan</span>
           </button>
         </div>
 
-        <!-- SCREEN B: Output plan (Day 1 of 2, honest free limit) -->
+        <!-- Output screen -->
         <div class="hpd-screen hpd-output" id="hpdOutput">
           <div class="hpd-out-header">
             <div>
               <div class="hpd-out-back">← Back</div>
-              <div class="hpd-out-day">Day 1 of 2</div>
-              <div class="hpd-out-sub">Complete today's tasks to stay on track</div>
+              <div class="hpd-out-day" id="hpdDayLabel">Day 1 of 2</div>
+              <div class="hpd-out-sub" id="hpdDaySub">Complete today's tasks to stay on track</div>
             </div>
-            <div class="hpd-out-badge">🧪 BIOLOGY</div>
+            <div class="hpd-out-badge" id="hpdDayBadge">🧪 BIOLOGY</div>
           </div>
           <div class="hpd-prog-bar"><div class="hpd-prog-fill" id="hpdFill"></div></div>
-          <div class="hpd-prog-label">0/3 tasks completed</div>
-          <button class="hpd-start-btn">▶ Start Today's Tasks</button>
+          <div class="hpd-prog-label" id="hpdProgLabel">0/3 tasks completed</div>
+          <button class="hpd-start-btn" id="hpdStartBtn">▶ Start Today's Tasks</button>
           <div class="hpd-tasks-label">
-            <span>TODAY'S TASKS</span><span class="hpd-tasks-count">3 left</span>
+            <span id="hpdTasksTitle">TODAY'S TASKS</span>
+            <span class="hpd-tasks-count" id="hpdTasksCount">3 left</span>
           </div>
-          <div class="hpd-task" id="hpdT1">
-            <div class="hpd-cb"></div>
-            <div class="hpd-task-text">Read: Open Biology textbook, highlight unfamiliar terms <span class="hpd-time">(20 min)</span></div>
-          </div>
-          <div class="hpd-task" id="hpdT2">
-            <div class="hpd-cb"></div>
-            <div class="hpd-task-text">Define: Write the 5 key Biology concepts in plain language <span class="hpd-time">(15 min)</span></div>
-          </div>
-          <div class="hpd-task" id="hpdT3">
-            <div class="hpd-cb"></div>
-            <div class="hpd-task-text">Watch: Find a beginner video on mitosis, take 3 bullet notes <span class="hpd-time">(20 min)</span></div>
-          </div>
-          <div class="hpd-momentum">⚡ Day 2 ready — keep your momentum going</div>
-        </div>
 
+          <!-- Day 1 tasks -->
+          <div id="hpdDay1Tasks">
+            <div class="hpd-task" id="hpdT1">
+              <div class="hpd-cb" id="hpdCb1"></div>
+              <div class="hpd-task-text">Learn: Cell structure — nucleus, membrane, mitochondria <span class="hpd-time">(15 min)</span></div>
+            </div>
+            <div class="hpd-task" id="hpdT2">
+              <div class="hpd-cb" id="hpdCb2"></div>
+              <div class="hpd-task-text">Watch: 10-min intro video on cell division <span class="hpd-time">(10 min)</span></div>
+            </div>
+            <div class="hpd-task" id="hpdT3">
+              <div class="hpd-cb" id="hpdCb3"></div>
+              <div class="hpd-task-text">Practice: Answer 5 questions on mitosis stages <span class="hpd-time">(20 min)</span></div>
+            </div>
+          </div>
+          <div class="hpd-est-time">⏱ Estimated time: ~45 minutes</div>
+
+          <!-- Day 2 tasks -->
+          <div id="hpdDay2Tasks" style="display:none">
+            <div class="hpd-task hpd-in" id="hpdT4">
+              <div class="hpd-cb" id="hpdCb4"></div>
+              <div class="hpd-task-text">Review yesterday's notes from memory <span class="hpd-time">(15 min)</span></div>
+            </div>
+            <div class="hpd-task hpd-in" id="hpdT5">
+              <div class="hpd-cb" id="hpdCb5"></div>
+              <div class="hpd-task-text">Draw and label a mitosis diagram <span class="hpd-time">(20 min)</span></div>
+            </div>
+            <div class="hpd-task hpd-in" id="hpdT6">
+              <div class="hpd-cb" id="hpdCb6"></div>
+              <div class="hpd-task-text">Flashcard quiz — aim for 80% accuracy <span class="hpd-time">(20 min)</span></div>
+            </div>
+          </div>
+
+          <div class="hpd-momentum" id="hpdMomentum">🎉 Day 1 done! Day 2 is ready.</div>
+        </div>
       </div>
-      <!-- Single float badge — relevant to AI planner -->
-      <div class="float-tag ft-1 reveal reveal-d3">✨ AI just built your plan</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     HOW IT WORKS
+════════════════════════════════════════════════ -->
+<section class="hiw-section" id="how-it-works">
+  <div class="container">
+    <div class="section-eye">How it works</div>
+    <h2 class="section-h2 reveal reveal-d1">Three steps.<br /><em>Zero guessing.</em></h2>
+
+    <div class="hiw-steps">
+      <div class="hiw-step reveal reveal-d1">
+        <div class="hiw-step-num">1</div>
+        <div class="hiw-step-icon">✏️</div>
+        <h3>Enter what you're studying</h3>
+        <p>Type your subject and what's confusing you. No setup, no account. Done in 10 seconds.</p>
+      </div>
+      <div class="hiw-connector reveal reveal-d2">→</div>
+      <div class="hiw-step reveal reveal-d2">
+        <div class="hiw-step-num">2</div>
+        <div class="hiw-step-icon">✦</div>
+        <h3>Get your study plan instantly</h3>
+        <p>AI generates specific daily tasks — each one named, timed, and prioritised by what you need most.</p>
+      </div>
+      <div class="hiw-connector reveal reveal-d3">→</div>
+      <div class="hiw-step reveal reveal-d3">
+        <div class="hiw-step-num">3</div>
+        <div class="hiw-step-icon">▶</div>
+        <h3>Start studying today</h3>
+        <p>Open the extension, see task one, begin. No deciding. No overthinking. Just start.</p>
+      </div>
     </div>
 
-<style>
-/* ── Hero Planner Demo ── */
-.hero-planner-demo{
-  background:white;border-radius:18px;
-  box-shadow:0 24px 80px rgba(60,30,10,.18),0 4px 16px rgba(60,30,10,.1);
-  overflow:hidden;width:420px;max-width:100%;
-  border:1px solid rgba(139,94,60,.1);
-}
-.hpd-topbar{
-  display:flex;align-items:center;gap:8px;
-  padding:10px 14px;background:#f9f5f0;
-  border-bottom:1px solid #ede3d3;
-}
-.hpd-dots{display:flex;gap:5px}
-.hpd-dots span{width:10px;height:10px;border-radius:50%}
-.hpd-dots span:nth-child(1){background:#ff6057}
-.hpd-dots span:nth-child(2){background:#ffbd2e}
-.hpd-dots span:nth-child(3){background:#28c840}
-.hpd-title{flex:1;font-size:11px;color:#888;font-weight:500;text-align:center}
-.hpd-badge{font-size:9px;font-weight:700;background:#f0e8e0;color:#8B5E3C;border:1px solid #C49A72;border-radius:20px;padding:2px 8px}
+    <div class="hiw-cta reveal">
+      <a href="https://chromewebstore.google.com/detail/studynest-%E2%80%93-ai-study-plan/hekgdccoflelefibgbdhgmajaodmkgdl" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+        Generate My Study Plan — Free
+      </a>
+      <span class="hiw-cta-note">No account · Installs in 10 seconds</span>
+    </div>
+  </div>
+</section>
 
-/* Screens */
-.hpd-screen{padding:20px}
-.hpd-output{display:none;background:#f5ede3}
-.hpd-output.hpd-show{display:block}
-.hpd-hidden{display:none!important}
+<!-- ════════════════════════════════════════════════
+     TESTIMONIALS (honest, realistic tone)
+════════════════════════════════════════════════ -->
+<section class="testi-section" id="testimonials">
+  <div class="container">
+    <div class="section-eye">What students say</div>
+    <h2 class="section-h2 reveal reveal-d1">Real feedback.<br /><em>No exaggeration.</em></h2>
 
-.hpd-screen-header{margin-bottom:16px}
-.hpd-screen-title{font-size:18px;font-weight:800;color:#3d2010;font-family:var(--fs);margin-bottom:3px}
-.hpd-screen-sub{font-size:12px;color:#aaa}
+    <div class="testi-grid">
+      <div class="testi-card reveal reveal-d1">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"This made studying feel less overwhelming. I finally know what to study each day instead of staring at my notes not knowing where to start."</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:#C49A72">S</div>
+          <div>
+            <div class="testi-name">Sofia M.</div>
+            <div class="testi-role">Biology student</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-d2">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"The tasks it gives you are actually specific. Not 'study chapter 3' — more like 'answer 5 questions on mitosis'. That's the difference between starting and not starting."</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:#8B5E3C">J</div>
+          <div>
+            <div class="testi-name">James K.</div>
+            <div class="testi-role">A-Level student, UK</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-d3">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"I always used to revise what I already knew. Now the plan focuses on my weak spots. It's a small thing but it actually changes how much I remember."</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:#A07850">A</div>
+          <div>
+            <div class="testi-name">Aisha R.</div>
+            <div class="testi-role">Pre-Med student</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-/* Form */
-.hpd-form{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
-.hpd-field{display:flex;flex-direction:column;gap:4px}
-.hpd-field-row{display:flex;gap:10px}
-.hpd-label{font-size:9px;font-weight:700;letter-spacing:.7px;color:#aaa}
-.hpd-input{
-  font-size:13px;color:#333;padding:8px 10px;
-  border:1.5px solid #eee;border-radius:8px;background:#fafafa;
-  min-height:36px;line-height:1.4;
-  transition:border-color .25s,background .25s;
-}
-.hpd-input.hpd-typing{border-color:#C49A72;background:#fff}
-.hpd-input.hpd-filled{border-color:#6ab04c;background:#f7fff4}
-.hpd-muted{color:#bbb;font-size:12px}
-.hpd-cursor{animation:blink .8s step-end infinite;color:#C49A72;font-weight:300}
-@keyframes blink{50%{opacity:0}}
-.hpd-select{
-  font-size:12px;color:#bbb;padding:8px 10px;
-  border:1.5px solid #eee;border-radius:8px;background:#fafafa;
-  display:flex;justify-content:space-between;
-  transition:border-color .25s,color .25s;
-}
-.hpd-select.hpd-filled{color:#333;border-color:#6ab04c;background:#f7fff4}
-.hpd-generate-btn{
-  width:100%;padding:13px;border-radius:11px;border:none;
-  background:linear-gradient(135deg,#8B5E3C,#C49A72);
-  color:white;font-size:14px;font-weight:800;
-  cursor:pointer;position:relative;overflow:hidden;font-family:var(--fs);
-}
-.hpd-shimmer{
-  position:absolute;inset:0;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);
-  transform:translateX(-100%);
-}
-.hpd-generate-btn.hpd-loading .hpd-shimmer{animation:hpdShimmer .7s ease infinite}
-@keyframes hpdShimmer{to{transform:translateX(200%)}}
+<!-- ════════════════════════════════════════════════
+     ALSO INCLUDES (secondary, minimal)
+════════════════════════════════════════════════ -->
+<section class="also-section">
+  <div class="container">
+    <div class="also-inner">
+      <div class="also-title">Everything you need to follow your plan</div>
+      <div class="also-chips">
+        <span class="also-chip">🎯 Stay focused with Pomodoro sessions</span>
+        <span class="also-chip">🃏 Turn topics into flashcards instantly</span>
+        <span class="also-chip">🚫 Block distractions while studying</span>
+        <span class="also-chip">🖍️ Save key ideas as you read</span>
+        <span class="also-chip">📊 Track your daily progress</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-/* Output */
-.hpd-out-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
-.hpd-out-back{font-size:11px;color:#8B5E3C;font-weight:600;margin-bottom:4px}
-.hpd-out-day{font-size:20px;font-weight:800;color:#3d2010;font-family:var(--fs);margin-bottom:2px}
-.hpd-out-sub{font-size:11px;color:#8B5E3C}
-.hpd-out-badge{font-size:10px;font-weight:700;background:#e8f5e9;color:#388e3c;border:1px solid #a5d6a7;border-radius:20px;padding:4px 10px;white-space:nowrap;margin-top:4px}
-.hpd-prog-bar{height:4px;background:#e8ddd4;border-radius:4px;margin-bottom:3px}
-.hpd-prog-fill{height:4px;background:#C49A72;border-radius:4px;width:0%}
-.hpd-prog-label{font-size:10px;color:#bbb;text-align:right;margin-bottom:12px}
-.hpd-start-btn{width:100%;padding:11px;border-radius:9px;border:none;background:#4CAF50;color:white;font-size:13px;font-weight:800;margin-bottom:12px;cursor:pointer}
-.hpd-tasks-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:9px;font-weight:700;letter-spacing:.7px;color:#888}
-.hpd-tasks-count{background:#f0e8e0;color:#8B5E3C;padding:2px 8px;border-radius:20px}
-.hpd-task{
-  display:flex;align-items:flex-start;gap:8px;
-  background:white;border-radius:9px;padding:9px 10px;margin-bottom:6px;
-  opacity:0;transform:translateY(8px);transition:opacity .35s ease,transform .35s ease;
-}
-.hpd-task.hpd-in{opacity:1;transform:none}
-.hpd-cb{width:15px;height:15px;border-radius:4px;border:1.5px solid #ddd;flex-shrink:0;margin-top:1px}
-.hpd-task-text{font-size:11px;color:#444;line-height:1.5}
-.hpd-time{color:#aaa}
-.hpd-momentum{font-size:10px;color:#C49A72;font-style:italic;text-align:center;margin:8px 0}
-.hpd-locked{
-  display:flex;align-items:flex-start;gap:8px;
-  background:#fff8f0;border:1px dashed #C49A72;
-  border-radius:9px;padding:10px 12px;font-size:11px;color:#8B5E3C;line-height:1.5;
-}
-.hpd-locked strong{display:block;font-weight:700;font-size:12px;margin-bottom:2px}
-</style>
+<!-- ════════════════════════════════════════════════
+     PRICING (clean, simple)
+════════════════════════════════════════════════ -->
+<section class="pricing-simple" id="pricing">
+  <div class="container">
+    <div class="pricing-simple-inner">
+      <div class="section-eye" style="text-align:center">Pricing</div>
+      <h2 class="section-h2 reveal reveal-d1" style="text-align:center">Start free.<br /><em>Upgrade when you need more.</em></h2>
 
+      <div class="pricing-cards reveal reveal-d2">
+        <div class="pc">
+          <div class="pc-label">Free</div>
+          <div class="pc-price">$0 <span>/forever</span></div>
+          <div class="pc-desc">Try it properly. No credit card, no time limit.</div>
+          <ul class="pc-items">
+            <li>AI study plans for 2 subjects</li>
+            <li>Focus mode & site blocker</li>
+            <li>Highlights & flashcards</li>
+            <li>Progress tracking</li>
+          </ul>
+          <a href="https://chromewebstore.google.com/detail/studynest-%E2%80%93-ai-study-plan/hekgdccoflelefibgbdhgmajaodmkgdl" target="_blank" rel="noopener" class="pc-cta pc-cta-free">Add to Chrome — Free</a>
+        </div>
+        <div class="pc pc-pro">
+          <div class="pc-label">Pro</div>
+          <div class="pc-price">$4.99 <span>/month</span></div>
+          <div class="pc-desc">Unlimited plans. Cancel anytime.</div>
+          <ul class="pc-items">
+            <li>Unlimited AI study plans</li>
+            <li>Multi-day plans (up to 7 days)</li>
+            <li>Advanced analytics</li>
+            <li>Everything in Free</li>
+          </ul>
+          <a href="https://chromewebstore.google.com/detail/studynest-%E2%80%93-ai-study-plan/hekgdccoflelefibgbdhgmajaodmkgdl" target="_blank" rel="noopener" class="pc-cta pc-cta-pro">Get Pro</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     FINAL CTA
+════════════════════════════════════════════════ -->
+<section class="final-cta-v2">
+  <div class="container">
+    <h2>Your next study session<br /><em>starts with a plan.</em></h2>
+    <p>No more staring at five subjects. Type your subject, get your plan, start immediately.</p>
+    <div class="cta-btns">
+      <a href="https://chromewebstore.google.com/detail/studynest-%E2%80%93-ai-study-plan/hekgdccoflelefibgbdhgmajaodmkgdl" target="_blank" rel="noopener" class="btn-white">
+        Generate My Study Plan
+      </a>
+      <a href="https://chromewebstore.google.com/detail/studynest-%E2%80%93-ai-study-plan/hekgdccoflelefibgbdhgmajaodmkgdl" target="_blank" rel="noopener" class="btn-outline-white">
+        Add to Chrome
+      </a>
+    </div>
+    <p class="final-cta-note">Free to install · No account required · Works in 10 seconds</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="foot-brand">
+      <img src="assets/icon.png" alt="" class="nav-icon" onerror="this.style.display='none'" />
+      <span>Study<em>Nest</em></span>
+    </div>
+    <nav class="foot-links">
+      <a href="https://chromewebstore.google.com/detail/studynest-%E2%80%93-ai-study-plan/hekgdccoflelefibgbdhgmajaodmkgdl" target="_blank" rel="noopener">Chrome Store</a>
+      <a href="mailto:support@studynest.co">Support</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+    </nav>
+    <p class="foot-copy">© 2026 StudyNest. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- REVEAL ANIMATION -->
+<script>
+(function(){
+  function revealEl(el){ el.classList.add('is-visible'); }
+  // Use IntersectionObserver where available
+  if('IntersectionObserver' in window){
+    var ro = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting) revealEl(e.target); });
+    },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){ ro.observe(el); });
+  } else {
+    // Fallback: reveal everything immediately
+    document.querySelectorAll('.reveal').forEach(revealEl);
+  }
+  // Hard fallback: after 400ms reveal anything still hidden (catches hero on local file://)
+  setTimeout(function(){
+    document.querySelectorAll('.reveal:not(.is-visible)').forEach(revealEl);
+  }, 400);
+})();
+</script>
+
+<!-- DEMO ANIMATION -->
 <script>
 (function(){
   var started = false;
@@ -517,10 +660,8 @@
     var t = setInterval(function(){
       cursor.before(document.createTextNode(text[i++]));
       if(i >= text.length){
-        clearInterval(t);
-        cursor.remove();
-        el.classList.remove('hpd-typing');
-        el.classList.add('hpd-filled');
+        clearInterval(t); cursor.remove();
+        el.classList.remove('hpd-typing'); el.classList.add('hpd-filled');
         if(cb) cb();
       }
     }, speed || 45);
@@ -534,61 +675,157 @@
     }, 350);
   }
 
+  function setProgress(fill, label, done, total){
+    if(fill) fill.style.width = Math.round(done/total*100) + '%';
+    if(label) label.textContent = done + '/' + total + ' tasks completed';
+  }
+
+  function tickTask(cbId, taskId, done, total, fill, progLabel, count, cb){
+    var cbEl = document.getElementById(cbId);
+    var taskEl = document.getElementById(taskId);
+    if(cbEl) cbEl.classList.add('hpd-checked');
+    if(taskEl) taskEl.classList.add('hpd-done');
+    setProgress(fill, progLabel, done, total);
+    if(count) count.textContent = (total - done) > 0 ? (total - done) + ' left' : '✓ All done!';
+    setTimeout(cb || function(){}, 700);
+  }
+
+  function g(id){ return document.getElementById(id); }
+
   function reset(){
-    var subj    = document.getElementById('hpdSubject');
-    var confuse = document.getElementById('hpdConfuse');
-    var time    = document.getElementById('hpdTime');
-    var level   = document.getElementById('hpdLevel');
-    var btn     = document.getElementById('hpdBtn');
-    var btnTxt  = document.getElementById('hpdBtnTxt');
-    var inp     = document.getElementById('hpdInput');
-    var out     = document.getElementById('hpdOutput');
-    subj.className = 'hpd-input'; subj.innerHTML = '<span class="hpd-cursor">|</span>';
-    confuse.className = 'hpd-input hpd-muted'; confuse.textContent = "e.g. I don't understand mitosis…";
-    time.className = 'hpd-select'; time.innerHTML = 'Choose… <span>▾</span>';
-    level.className = 'hpd-select'; level.innerHTML = 'Choose… <span>▾</span>';
-    btnTxt.textContent = '✦ Generate My Action Plan';
-    btn.classList.remove('hpd-loading');
-    inp.classList.remove('hpd-hidden');
-    out.classList.remove('hpd-show');
-    ['hpdT1','hpdT2','hpdT3'].forEach(function(id){ document.getElementById(id).classList.remove('hpd-in'); });
+    g('hpdSubject').className = 'hpd-input'; g('hpdSubject').innerHTML = '<span class="hpd-cursor">|</span>';
+    g('hpdConfuse').className = 'hpd-input hpd-muted'; g('hpdConfuse').textContent = "e.g. I don't understand mitosis…";
+    g('hpdTime').className = 'hpd-select'; g('hpdTime').innerHTML = 'Choose… <span>▾</span>';
+    g('hpdLevel').className = 'hpd-select'; g('hpdLevel').innerHTML = 'Choose… <span>▾</span>';
+    g('hpdBtnTxt').textContent = 'Generate My Study Plan';
+    g('hpdBtn').classList.remove('hpd-loading');
+    g('hpdInput').classList.remove('hpd-hidden');
+    g('hpdOutput').classList.remove('hpd-show');
+    var lbl = g('hpdScreenLabel');
+    if(lbl){ lbl.textContent = '✦ Free'; lbl.style.background = ''; lbl.style.color = ''; lbl.style.borderColor = ''; }
+    var badge = g('hpdFloatBadge');
+    if(badge) badge.classList.remove('hpd-badge-show');
+    // Reset Day 1
+    ['hpdT1','hpdT2','hpdT3'].forEach(function(id){
+      var el = g(id); if(el){ el.classList.remove('hpd-in','hpd-done'); el.style.opacity=''; el.style.transform=''; }
+    });
+    ['hpdCb1','hpdCb2','hpdCb3'].forEach(function(id){ var el=g(id); if(el) el.classList.remove('hpd-checked'); });
+    // Reset Day 2
+    var d2 = g('hpdDay2Tasks');
+    if(d2){ d2.style.display='none'; d2.style.opacity='0'; d2.style.transition=''; }
+    ['hpdT4','hpdT5','hpdT6'].forEach(function(id){ var el=g(id); if(el){ el.style.opacity='1'; el.style.transform='none'; } });
+    ['hpdCb4','hpdCb5','hpdCb6'].forEach(function(id){ var el=g(id); if(el) el.classList.remove('hpd-checked'); });
+    // Reset output header
+    if(g('hpdDayLabel')) g('hpdDayLabel').textContent = 'Day 1 of 2';
+    if(g('hpdDaySub')) g('hpdDaySub').textContent = "Complete today's tasks to stay on track";
+    if(g('hpdFill')) g('hpdFill').style.width = '0%';
+    if(g('hpdProgLabel')) g('hpdProgLabel').textContent = '0/3 tasks completed';
+    if(g('hpdTasksCount')) g('hpdTasksCount').textContent = '3 left';
+    if(g('hpdStartBtn')){ g('hpdStartBtn').textContent = '▶ Start Today\'s Tasks'; g('hpdStartBtn').style.background = '#4CAF50'; }
+    if(g('hpdMomentum')){ g('hpdMomentum').style.opacity = '0'; g('hpdMomentum').style.transition = ''; }
+    var d1 = g('hpdDay1Tasks'); if(d1){ d1.style.display='block'; d1.style.opacity='1'; d1.style.transition=''; }
   }
 
   function runDemo(){
     if(started) return; started = true;
     reset();
 
-    var subj    = document.getElementById('hpdSubject');
-    var confuse = document.getElementById('hpdConfuse');
-    var time    = document.getElementById('hpdTime');
-    var level   = document.getElementById('hpdLevel');
-    var btn     = document.getElementById('hpdBtn');
-    var btnTxt  = document.getElementById('hpdBtnTxt');
-    var inp     = document.getElementById('hpdInput');
-    var out     = document.getElementById('hpdOutput');
+    var lbl = g('hpdScreenLabel');
+    var fill = g('hpdFill'), progLabel = g('hpdProgLabel'), count = g('hpdTasksCount');
+    var momentum = g('hpdMomentum'), dayLabel = g('hpdDayLabel'), daySub = g('hpdDaySub');
+    var startBtn = g('hpdStartBtn'), d1 = g('hpdDay1Tasks'), d2 = g('hpdDay2Tasks');
+    var badge = g('hpdFloatBadge');
 
+    // Phase 1: Fill form
     setTimeout(function(){
-      type(subj, 'Biology — Cell Division', 48, function(){
+      type(g('hpdSubject'), 'Biology — beginner — 1 hour/day', 52, function(){
         setTimeout(function(){
-          confuse.classList.remove('hpd-muted');
-          type(confuse, "I don't understand mitosis", 42, function(){
+          g('hpdConfuse').classList.remove('hpd-muted');
+          type(g('hpdConfuse'), "I don't understand mitosis", 42, function(){
             setTimeout(function(){
-              snap(time, '1 hour', function(){
-                snap(level, 'Beginner', function(){
+              snap(g('hpdTime'), '1 hour', function(){
+                snap(g('hpdLevel'), 'Beginner', function(){
+
+                  // Phase 2: Generate
                   setTimeout(function(){
-                    btn.classList.add('hpd-loading');
-                    btnTxt.textContent = '⏳ Generating your plan…';
+                    g('hpdBtn').classList.add('hpd-loading');
+                    g('hpdBtnTxt').textContent = '⏳ Building your plan…';
+                    if(lbl){ lbl.textContent = '⚙ Generating…'; lbl.style.background='#fff3e0'; lbl.style.color='#8B5E3C'; }
+
                     setTimeout(function(){
-                      inp.classList.add('hpd-hidden');
-                      out.classList.add('hpd-show');
-                      setTimeout(function(){ document.getElementById('hpdT1').classList.add('hpd-in'); }, 300);
-                      setTimeout(function(){ document.getElementById('hpdT2').classList.add('hpd-in'); }, 580);
-                      setTimeout(function(){ document.getElementById('hpdT3').classList.add('hpd-in'); }, 860);
-                      // Loop
+                      // Phase 3: Show Day 1
+                      g('hpdInput').classList.add('hpd-hidden');
+                      g('hpdOutput').classList.add('hpd-show');
+                      if(lbl){ lbl.textContent = '✓ Plan ready!'; lbl.style.background='#e8f5e9'; lbl.style.color='#388e3c'; lbl.style.borderColor='#a5d6a7'; }
+                      if(badge) setTimeout(function(){ badge.classList.add('hpd-badge-show'); }, 400);
+
+                      setTimeout(function(){ g('hpdT1').classList.add('hpd-in'); }, 300);
+                      setTimeout(function(){ g('hpdT2').classList.add('hpd-in'); }, 560);
+                      setTimeout(function(){ g('hpdT3').classList.add('hpd-in'); }, 820);
+
+                      // Phase 4: Tick tasks green
                       setTimeout(function(){
-                        out.classList.remove('hpd-show');
-                        setTimeout(function(){ started = false; runDemo(); }, 600);
-                      }, 9500);
+                        tickTask('hpdCb1','hpdT1', 1, 3, fill, progLabel, count, function(){
+                          setTimeout(function(){
+                            tickTask('hpdCb2','hpdT2', 2, 3, fill, progLabel, count, function(){
+                              setTimeout(function(){
+                                tickTask('hpdCb3','hpdT3', 3, 3, fill, progLabel, count, function(){
+
+                                  // Phase 5: All done
+                                  setTimeout(function(){
+                                    if(momentum){ momentum.style.transition='opacity .5s'; momentum.style.opacity='1'; }
+                                    if(startBtn){ startBtn.textContent='✓ Day 1 Complete!'; startBtn.style.background='#388e3c'; }
+                                    if(badge) badge.classList.remove('hpd-badge-show');
+
+                                    // Phase 6: Slide to Day 2
+                                    setTimeout(function(){
+                                      if(d1){ d1.style.transition='opacity .4s'; d1.style.opacity='0'; }
+                                      if(momentum) momentum.style.opacity='0';
+
+                                      setTimeout(function(){
+                                        if(d1) d1.style.display='none';
+                                        if(dayLabel){ dayLabel.style.transition='opacity .25s'; dayLabel.style.opacity='0'; }
+
+                                        setTimeout(function(){
+                                          if(dayLabel){ dayLabel.textContent='Day 2 of 2'; dayLabel.style.opacity='1'; }
+                                          if(daySub) daySub.textContent='Keep the momentum going';
+                                          if(fill) fill.style.width='0%';
+                                          if(progLabel) progLabel.textContent='0/3 tasks completed';
+                                          if(count) count.textContent='3 left';
+                                          if(startBtn){ startBtn.textContent='▶ Start Day 2'; startBtn.style.background='#4CAF50'; }
+                                          if(lbl) lbl.textContent = '📅 Day 2';
+
+                                          if(d2){ d2.style.display='block'; d2.style.opacity='0'; d2.style.transition='opacity .4s'; }
+                                          setTimeout(function(){
+                                            if(d2) d2.style.opacity='1';
+                                            var show = function(id, delay){
+                                              setTimeout(function(){
+                                                var el = g(id); if(!el) return;
+                                                el.style.opacity='0'; el.style.transform='translateY(10px)';
+                                                el.style.transition='opacity .35s ease, transform .35s ease';
+                                                setTimeout(function(){ el.style.opacity='1'; el.style.transform='none'; }, 30);
+                                              }, delay);
+                                            };
+                                            show('hpdT4', 100); show('hpdT5', 360); show('hpdT6', 620);
+
+                                            // Phase 7: Loop
+                                            setTimeout(function(){
+                                              g('hpdOutput').classList.remove('hpd-show');
+                                              if(lbl){ lbl.textContent='✦ Free'; lbl.style.background=''; lbl.style.color=''; lbl.style.borderColor=''; }
+                                              setTimeout(function(){ started=false; runDemo(); }, 800);
+                                            }, 5000);
+                                          }, 200);
+                                        }, 350);
+                                      }, 500);
+                                    }, 1500);
+                                  }, 600);
+                                });
+                              }, 700);
+                            });
+                          }, 700);
+                        });
+                      }, 1800);
+
                     }, 1600);
                   }, 500);
                 });
@@ -608,447 +845,6 @@
   obs.observe(hero);
 })();
 </script>
-  </div>
-</section>
 
-<!-- HOW TO INSTALL STRIP -->
-
-<!-- ════════════════════════════════════════════════
-     HOW IT WORKS
-════════════════════════════════════════════════ -->
-<section class="hiw-section" id="how-it-works">
-  <div class="container">
-    <div class="section-eye">How it works</div>
-    <h2 class="section-h2 reveal reveal-d1">From zero to studying<br /><em>in under 60 seconds</em></h2>
-
-    <div class="hiw-steps">
-
-      <div class="hiw-step reveal reveal-d1">
-        <div class="hiw-step-num">1</div>
-        <div class="hiw-step-icon">📚</div>
-        <h3>Enter your subject</h3>
-        <p>Type what you're studying and what's confusing you. Takes 10 seconds.</p>
-      </div>
-
-      <div class="hiw-connector reveal reveal-d2">→</div>
-
-      <div class="hiw-step reveal reveal-d2">
-        <div class="hiw-step-num">2</div>
-        <div class="hiw-step-icon">✦</div>
-        <h3>AI builds your plan</h3>
-        <p>StudyNest generates a clear, time-blocked daily action plan — specific tasks, in order of priority.</p>
-      </div>
-
-      <div class="hiw-connector reveal reveal-d3">→</div>
-
-      <div class="hiw-step reveal reveal-d3">
-        <div class="hiw-step-num">3</div>
-        <div class="hiw-step-icon">🎯</div>
-        <h3>Start studying instantly</h3>
-        <p>No more deciding. Open the extension, see your tasks, start the first one. Every session has a clear beginning.</p>
-      </div>
-
-    </div>
-
-    <div class="hiw-cta reveal">
-      <a href="https://chromewebstore.google.com/detail/studynest-%E2%80%93-ai-study-plan/hekgdccoflelefibgbdhgmajaodmkgdl" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
-        Try it now — Free
-      </a>
-      <span class="hiw-cta-note">No account · Installs in 10 seconds</span>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════
-     BENEFITS / OUTCOMES
-════════════════════════════════════════════════ -->
-<section class="benefits-section">
-  <div class="container">
-    <div class="benefits-inner">
-      <div class="benefits-copy reveal reveal-d1">
-        <div class="section-eye">Why it works</div>
-        <h2 class="section-h2">Stop wasting your<br /><em>best study hours</em></h2>
-        <p class="benefits-sub">Most students don't fail because they're lazy. They fail because they never had a clear plan. StudyNest fixes the 20 minutes of wasted time at the start of every session.</p>
-      </div>
-      <div class="benefits-list">
-        <div class="benefit-item reveal reveal-d1">
-          <div class="benefit-icon">⏱</div>
-          <div>
-            <strong>Save 20+ minutes per session</strong>
-            <p>No more staring at your notes wondering where to start. Your plan is ready the moment you open the extension.</p>
-          </div>
-        </div>
-        <div class="benefit-item reveal reveal-d2">
-          <div class="benefit-icon">📈</div>
-          <div>
-            <strong>Stay consistent with a clear structure</strong>
-            <p>A daily plan removes the willpower cost of deciding. You just follow it. Consistency becomes the default.</p>
-          </div>
-        </div>
-        <div class="benefit-item reveal reveal-d3">
-          <div class="benefit-icon">🧠</div>
-          <div>
-            <strong>Reduce overwhelm instantly</strong>
-            <p>Five subjects feel manageable when AI breaks them into today's three tasks. Big exams stop feeling impossible.</p>
-          </div>
-        </div>
-        <div class="benefit-item reveal reveal-d1">
-          <div class="benefit-icon">✅</div>
-          <div>
-            <strong>Know you're studying the right things</strong>
-            <p>The AI prioritises based on your weak spots and goals — not just what's easiest to revise.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════
-     SUPPORTING FEATURES
-════════════════════════════════════════════════ -->
-<section class="support-section" id="features">
-  <div class="container">
-    <div class="section-eye">Everything else to keep you consistent</div>
-    <h2 class="section-h2 reveal reveal-d1">Built to support every<br /><em>part of your study session</em></h2>
-    <p class="section-sub reveal reveal-d2" style="max-width:540px;margin:0 auto 48px;text-align:center;">Once you have your plan, StudyNest helps you execute it — without switching apps.</p>
-
-    <div class="support-grid">
-      <div class="support-card reveal reveal-d1">
-        <div class="support-icon">🎯</div>
-        <h3>Focus Mode</h3>
-        <p>Block YouTube, Reddit, and any distracting site with one click. Pomodoro timer starts automatically.</p>
-      </div>
-      <div class="support-card reveal reveal-d2">
-        <div class="support-icon">🖍️</div>
-        <h3>Smart Highlights</h3>
-        <p>Select text on any webpage, save it with a color and folder. Find it instantly later with search.</p>
-      </div>
-      <div class="support-card reveal reveal-d3">
-        <div class="support-icon">🃏</div>
-        <h3>Flashcards</h3>
-        <p>Create or AI-generate decks by subject. Spaced repetition built in — review what you're about to forget.</p>
-      </div>
-      <div class="support-card reveal reveal-d1">
-        <div class="support-icon">📊</div>
-        <h3>Progress Tracking</h3>
-        <p>Daily streaks, XP system, study heatmaps. Seeing your consistency builds momentum that compounds.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════
-     SCREENSHOTS SLIDESHOW
-════════════════════════════════════════════════ -->
-<section class="ss-section" id="screenshots">
-  <div class="container">
-    <p class="section-eye">Real screenshots from the extension</p>
-    <h2 class="section-h2 reveal reveal-d1">Every feature,<br /><em>shown exactly as it looks</em></h2>
-    <p class="section-sub reveal reveal-d2">Click the tabs below to explore each screen.</p>
-
-    <div class="ss-wrap reveal reveal-d2">
-      <!-- Tab buttons -->
-      <div class="ss-tab-row" id="ssTabs">
-        <button class="ss-tab active" data-i="0">🏠 Dashboard</button>
-        <button class="ss-tab" data-i="1">🖍️ Highlights</button>
-        <button class="ss-tab" data-i="2">🎯 Focus Mode</button>
-        <button class="ss-tab" data-i="3">🤖 AI Chat</button>
-        <button class="ss-tab" data-i="4">🃏 Flashcards</button>
-        <button class="ss-tab" data-i="5">📊 Progress</button>
-        <button class="ss-tab" data-i="6">🎵 Study Music</button>
-      </div>
-
-      <!-- Slides -->
-      <div class="ss-stage" id="ssStage">
-        <div class="ss-slide active" data-i="0">
-          <div class="ss-img-wrap">
-            <img src="assets/screenshots/dashboard.png" alt="StudyNest Dashboard — streak, XP, AI tip, today's tasks" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-            <div class="ss-ph"><div class="ss-ph-icon">🏠</div><div class="ss-ph-name">assets/screenshots/<strong>dashboard.png</strong></div><div class="ss-ph-hint">Put your screenshot here</div></div>
-          </div>
-          <div class="ss-info"><h3>Dashboard</h3><p>Your study hub — streak counter, XP bar, AI-powered tip, and today's task list load the moment you click the extension icon.</p></div>
-        </div>
-        <div class="ss-slide" data-i="1">
-          <div class="ss-img-wrap">
-            <img src="assets/screenshots/highlights.png" alt="StudyNest Highlights — folder organization and color coding" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-            <div class="ss-ph"><div class="ss-ph-icon">🖍️</div><div class="ss-ph-name">assets/screenshots/<strong>highlights.png</strong></div><div class="ss-ph-hint">Put your screenshot here</div></div>
-          </div>
-          <div class="ss-info"><h3>Smart Highlights</h3><p>Select text on any webpage, pick a color, choose a folder. Every highlight is saved, searchable, and AI-ready.</p></div>
-        </div>
-        <div class="ss-slide" data-i="2">
-          <div class="ss-img-wrap">
-            <img src="assets/screenshots/focus.png" alt="StudyNest Focus Mode — Pomodoro timer and site blocker" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-            <div class="ss-ph"><div class="ss-ph-icon">🎯</div><div class="ss-ph-name">assets/screenshots/<strong>focus.png</strong></div><div class="ss-ph-hint">Put your screenshot here</div></div>
-          </div>
-          <div class="ss-info"><h3>Focus Mode</h3><p>Pomodoro timer + site blocker activate together. YouTube and Reddit are blocked the moment you start a session.</p></div>
-        </div>
-        <div class="ss-slide" data-i="3">
-          <div class="ss-img-wrap">
-            <img src="assets/screenshots/ai-chat.png" alt="StudyNest AI Assistant chat interface" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-            <div class="ss-ph"><div class="ss-ph-icon">🤖</div><div class="ss-ph-name">assets/screenshots/<strong>ai-chat.png</strong></div><div class="ss-ph-hint">Put your screenshot here</div></div>
-          </div>
-          <div class="ss-info"><h3>AI Assistant</h3><p>Ask anything. Summarize webpages, generate flashcards, get explanations — all without leaving your tab.</p></div>
-        </div>
-        <div class="ss-slide" data-i="4">
-          <div class="ss-img-wrap">
-            <img src="assets/screenshots/flashcards.png" alt="StudyNest Flashcards with spaced repetition" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-            <div class="ss-ph"><div class="ss-ph-icon">🃏</div><div class="ss-ph-name">assets/screenshots/<strong>flashcards.png</strong></div><div class="ss-ph-hint">Put your screenshot here</div></div>
-          </div>
-          <div class="ss-info"><h3>Flashcards</h3><p>Create, import, or AI-generate flashcard decks. Study with spaced repetition to remember more in less time.</p></div>
-        </div>
-        <div class="ss-slide" data-i="5">
-          <div class="ss-img-wrap">
-            <img src="assets/screenshots/progress.png" alt="StudyNest Progress analytics heatmap and subject breakdown" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-            <div class="ss-ph"><div class="ss-ph-icon">📊</div><div class="ss-ph-name">assets/screenshots/<strong>progress.png</strong></div><div class="ss-ph-hint">Put your screenshot here</div></div>
-          </div>
-          <div class="ss-info"><h3>Progress Analytics</h3><p>Daily heatmaps, subject breakdowns, XP system, and leaderboards. Watch your improvement compound.</p></div>
-        </div>
-        <div class="ss-slide" data-i="6">
-          <div class="ss-img-wrap">
-            <img src="assets/screenshots/music.png" alt="StudyNest Study Music — curated lo-fi playlists for focus" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-            <div class="ss-ph"><div class="ss-ph-icon">🎵</div><div class="ss-ph-name">assets/screenshots/<strong>music.png</strong></div><div class="ss-ph-hint">Put your screenshot here</div></div>
-          </div>
-          <div class="ss-info"><h3>Study Music</h3><p>Curated lo-fi and focus playlists built right into the extension. No Spotify needed.</p></div>
-        </div>
-      </div>
-
-      <div class="ss-nav">
-        <button class="ss-arr" id="ssPrev">‹</button>
-        <div class="ss-dots-row" id="ssDots"></div>
-        <button class="ss-arr" id="ssNext">›</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-/* ═══════════════════════════════
-   HOW IT WORKS
-═══════════════════════════════ */
-.hiw-section{padding:100px 0;background:white}
-.hiw-steps{
-  display:flex;align-items:flex-start;gap:0;
-  margin:56px 0 48px;
-}
-.hiw-step{
-  flex:1;text-align:center;padding:0 24px;
-  display:flex;flex-direction:column;align-items:center;gap:14px;
-}
-.hiw-step-num{
-  width:32px;height:32px;border-radius:50%;
-  background:var(--coffee);color:white;
-  font-size:13px;font-weight:800;
-  display:flex;align-items:center;justify-content:center;
-}
-.hiw-step-icon{font-size:36px;margin:4px 0;}
-.hiw-step h3{font-size:17px;font-weight:700;color:var(--ink);margin:0 0 6px;font-family:var(--fb)}
-.hiw-step p{font-size:14px;color:var(--ink-m);line-height:1.6;margin:0}
-.hiw-connector{
-  font-size:28px;color:var(--coffee);opacity:.3;
-  font-weight:700;flex-shrink:0;margin-top:56px;
-}
-.hiw-cta{display:flex;align-items:center;gap:16px;justify-content:center;flex-wrap:wrap}
-.hiw-cta-note{font-size:13px;color:var(--ink-l)}
-
-/* ═══════════════════════════════
-   BENEFITS / OUTCOMES
-═══════════════════════════════ */
-.benefits-section{padding:100px 0;background:var(--latte)}
-.benefits-inner{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:64px;align-items:start;
-}
-.benefits-sub{font-size:15px;color:var(--ink-m);line-height:1.7;margin-top:16px}
-.benefits-list{display:flex;flex-direction:column;gap:28px}
-.benefit-item{
-  display:flex;align-items:flex-start;gap:16px;
-  background:white;border-radius:14px;padding:20px;
-  box-shadow:0 2px 12px rgba(0,0,0,.04);
-  border:1px solid rgba(139,94,60,.08);
-}
-.benefit-icon{
-  font-size:24px;width:44px;height:44px;border-radius:12px;
-  background:var(--cream);display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;
-}
-.benefit-item strong{display:block;font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px}
-.benefit-item p{font-size:13.5px;color:var(--ink-m);line-height:1.6;margin:0}
-
-/* ═══════════════════════════════
-   SUPPORTING FEATURES
-═══════════════════════════════ */
-.support-section{padding:100px 0;background:white}
-.support-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:20px;
-}
-.support-card{
-  background:var(--cream);border-radius:16px;
-  padding:28px 24px;border:1px solid rgba(139,94,60,.1);
-  transition:transform .2s ease,box-shadow .2s ease;
-}
-.support-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.07)}
-.support-icon{font-size:28px;margin-bottom:12px}
-.support-card h3{font-size:16px;font-weight:700;color:var(--ink);margin:0 0 8px;font-family:var(--fb)}
-.support-card p{font-size:13.5px;color:var(--ink-m);line-height:1.6;margin:0}
-
-@media(max-width:900px){
-  .hiw-steps{flex-direction:column;align-items:center}
-  .hiw-connector{transform:rotate(90deg);margin:0}
-  .benefits-inner{grid-template-columns:1fr;gap:40px}
-  .support-grid{grid-template-columns:1fr 1fr}
-}
-@media(max-width:540px){
-  .support-grid{grid-template-columns:1fr}
-}
-</style>
-
-<!-- REVIEWS -->
-<section class="reviews" id="reviews">
-  <div class="container">
-    <div class="section-eye">What students say</div>
-    <h2 class="section-h2 reveal reveal-d1">Real feedback from<br /><em>real students</em></h2>
-    <div class="trust-bar reveal reveal-d2">
-      <div class="tb-item"><strong>Free</strong><span>Core features, always</span></div>
-      <div class="tb-item"><strong>50+ unis</strong><span>Students worldwide</span></div>
-      <div class="tb-item"><strong>Rated ↗</strong><span><a href="https://chromewebstore.google.com/detail/studynest-%E2%80%93-ai-study-plan/hekgdccoflelefibgbdhgmajaodmkgdl" target="_blank" rel="noopener" style="color:var(--coffee);text-decoration:none">See Chrome Store</a></span></div>
-      <div class="tb-item"><strong>No ads</strong><span>Pro plan funds the AI</span></div>
-    </div>
-    <div class="reviews-grid">
-      <blockquote class="rv reveal reveal-d1"><div class="rv-stars">★★★★★</div><p>"From barely passing to a 3.8 GPA in one semester. The AI planner showed me exactly what to focus on."</p><footer><div class="rv-av" style="background:#C49A72">SM</div><div><strong>Sofia M.</strong><span>Pre-Med, U of Michigan</span></div></footer></blockquote>
-      <blockquote class="rv reveal reveal-d2"><div class="rv-stars">★★★★★</div><p>"I get more done in 90 minutes than I used to in a whole day. Deleted every other productivity app."</p><footer><div class="rv-av" style="background:#8B5E3C">JK</div><div><strong>James K.</strong><span>CS, UCL London</span></div></footer></blockquote>
-      <blockquote class="rv reveal reveal-d3"><div class="rv-stars">★★★★★</div><p>"Highlights on Wikipedia automatically go to folders and become flashcards. My whole revision system is here."</p><footer><div class="rv-av" style="background:#A07850">AR</div><div><strong>Aisha R.</strong><span>A-Level Student, UK</span></div></footer></blockquote>
-      <blockquote class="rv reveal reveal-d1"><div class="rv-stars">★★★★★</div><p>"47 days without missing a session. I literally cannot break the streak now. The gamification works."</p><footer><div class="rv-av" style="background:#6B4A2A">LT</div><div><strong>Lucas T.</strong><span>MBA, IE Business School</span></div></footer></blockquote>
-      <blockquote class="rv reveal reveal-d2"><div class="rv-stars">★★★★★</div><p>"As a teacher I recommended this to my whole class. AI summaries save my students hours every week."</p><footer><div class="rv-av" style="background:#5C3D22">RP</div><div><strong>Dr. Rachel P.</strong><span>Biology Teacher</span></div></footer></blockquote>
-      <blockquote class="rv reveal reveal-d3"><div class="rv-stars">★★★★★</div><p>"Open Chrome and it quietly keeps you on track. No setup, no learning curve. Instantly useful."</p><footer><div class="rv-av" style="background:#7A5230">MH</div><div><strong>Marcus H.</strong><span>Law, U of Sydney</span></div></footer></blockquote>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="pricing" id="pricing">
-  <div class="container">
-    <div class="section-eye">Simple pricing</div>
-    <h2 class="section-h2 reveal reveal-d1">Start free.<br /><em>Upgrade when ready.</em></h2>
-
-    <!-- How it's free — honest, placed near pricing -->
-    <div class="hiw-free-note reveal reveal-d2">
-      <span>💡</span>
-      <span><strong>How it's free:</strong> Free plan includes plans for up to 2 subjects — enough to experience real value. Pro ($4.99/mo) unlocks unlimited subjects, longer multi-day plans, and all advanced features. No ads. No data selling. Cancel anytime.</span>
-    </div>
-    <div class="price-grid">
-      <div class="price-card reveal reveal-d1">
-        <div class="pc-name">Free</div>
-        <div class="pc-price"><span class="pc-amt">$0</span><span class="pc-per">/forever</span></div>
-        <p>Everything you need to build a study habit.</p>
-        <ul>
-          <li>✓ Highlights &amp; folder organization</li>
-          <li>✓ Pomodoro focus timer</li>
-          <li>✓ Flashcard creator</li>
-          <li>✓ Progress tracking &amp; streaks</li>
-          <li>✓ AI chat (20 messages/day)</li>
-          <li>✓ Study music player</li>
-        </ul>
-        <a href="https://chromewebstore.google.com/detail/studynest-%E2%80%93-ai-study-plan/hekgdccoflelefibgbdhgmajaodmkgdl" target="_blank" rel="noopener" class="btn btn-outline" style="width:100%;justify-content:center">Add to Chrome — Free</a>
-      </div>
-      <div class="price-card price-featured reveal reveal-d2">
-        <div class="pc-badge">Most Popular</div>
-        <div class="pc-name">Pro</div>
-        <div class="pc-price"><span class="pc-amt">$4</span><span class="pc-per">.99/month</span></div>
-        <p>Unlock the full AI study system.</p>
-        <ul>
-          <li>✓ Everything in Free</li>
-          <li>✓ <strong>Unlimited AI conversations</strong></li>
-          <li>✓ Advanced analytics &amp; heatmaps</li>
-          <li>✓ AI study schedule generation</li>
-          <li>✓ Export flashcards to Anki</li>
-          <li>✓ Priority AI response speed</li>
-        </ul>
-        <a href="https://chromewebstore.google.com/detail/studynest-%E2%80%93-ai-study-plan/hekgdccoflelefibgbdhgmajaodmkgdl" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;justify-content:center">Try Pro — 7 Days Free</a>
-        <p class="pc-note">No credit card required</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ SECTION -->
-<section class="faq-section">
-  <div class="container faq-inner">
-    <div class="section-eye">Questions</div>
-    <h2 class="section-h2 reveal reveal-d1">Frequently asked</h2>
-    <div class="faq-list">
-      <details class="faq-item reveal reveal-d1">
-        <summary>Wait — AI isn't free. What's the catch?</summary>
-        <p>Completely fair question. The AI Planner is free for up to 2 subjects — so you can generate a real plan and see exactly what you get before committing. Pro ($4.99/mo) unlocks unlimited subjects, longer multi-day plans, and all advanced features. No ads, no data selling, no hidden fees. If Pro never makes sense for you, the free plan stays free forever.</p>
-      </details>
-      <details class="faq-item reveal reveal-d1">
-        <summary>Is StudyNest really free?</summary>
-        <p>Yes. Core features — focus mode, highlights, flashcards, progress tracking, and study music — are completely free with no time limit. The AI Planner is free for up to 2 subjects. Pro unlocks unlimited subjects and advanced analytics.</p>
-      </details>
-      <details class="faq-item reveal reveal-d2">
-        <summary>Does it work on all websites?</summary>
-        <p>Yes. StudyNest works across all websites — Wikipedia, course platforms, news sites, PDFs in Chrome, Google Docs, and more. The highlight and summarize feature works anywhere you can select text.</p>
-      </details>
-      <details class="faq-item reveal reveal-d3">
-        <summary>How is the AI powered?</summary>
-        <p>StudyNest uses state-of-the-art large language models to power its AI chat, summarization, and flashcard generation. Your data is processed securely and never sold to third parties.</p>
-      </details>
-      <details class="faq-item reveal reveal-d1">
-        <summary>Can I use it without creating an account?</summary>
-        <p>Absolutely. Install the extension and start using it immediately. Creating an account lets you sync your data across devices and unlocks the full feature set.</p>
-      </details>
-      <details class="faq-item reveal reveal-d2">
-        <summary>Is my study data private?</summary>
-        <p>Yes. Your highlights, notes, and flashcards are stored locally on your device by default. Cloud sync is fully encrypted. We never sell your data.</p>
-      </details>
-    </div>
-  </div>
-</section>
-
-<!-- FINAL CTA -->
-<section class="final-cta">
-  <div class="fc-glow-1"></div><div class="fc-glow-2"></div>
-  <div class="container fc-inner">
-    <div class="fc-icon reveal">
-      <img src="assets/icon.png" alt="StudyNest" style="width:72px;height:72px;border-radius:18px;box-shadow:0 12px 40px rgba(0,0,0,.2)" onerror="this.outerHTML='<span style=font-size:4rem>🪺</span>'" />
-    </div>
-    <h2 class="fc-h2 reveal reveal-d1">Know what to study.<br /><em>Starting right now.</em></h2>
-    <p class="fc-sub reveal reveal-d2">Install free in 10 seconds. No account required. Open StudyNest, type your subject, and get your first AI study plan before you finish your coffee.</p>
-    <a href="https://chromewebstore.google.com/detail/studynest-%E2%80%93-ai-study-plan/hekgdccoflelefibgbdhgmajaodmkgdl" target="_blank" rel="noopener" class="btn btn-primary btn-xl reveal reveal-d3">
-      <svg width="22" height="22" viewBox="0 0 20 20" fill="none"><path d="M10 2C5.58 2 2 5.58 2 10s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.4A6.4 6.4 0 113.6 10 6.4 6.4 0 0110 16.4z" fill="white" opacity=".3"/><path d="M10 3.6a6.4 6.4 0 016.4 6.4H10V3.6z" fill="white"/><path d="M10 10l-4.4 7.6A6.4 6.4 0 013.6 10H10z" fill="white" opacity=".7"/><path d="M10 10l4.4 7.6a6.4 6.4 0 01-8.8 0L10 10z" fill="white" opacity=".5"/></svg>
-      Add StudyNest to Chrome — It's Free
-    </a>
-    <p class="fc-note reveal reveal-d3">Works on Chrome · Edge · Brave · Opera · No account needed</p>
-  </div>
-</section>
-
-</main>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="container footer-inner">
-    <div class="foot-logo">
-      <img src="assets/icon.png" alt="StudyNest" style="width:20px;height:20px;border-radius:4px" onerror="this.outerHTML='🪺'" />
-      StudyNest
-    </div>
-    <nav class="foot-links">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms</a>
-      <a href="#">Contact</a>
-      <a href="#">Blog</a>
-      <a href="https://chromewebstore.google.com/detail/studynest-%E2%80%93-ai-study-plan/hekgdccoflelefibgbdhgmajaodmkgdl" target="_blank" rel="noopener">Chrome Store ↗</a>
-    </nav>
-    <p class="foot-copy">© 2026 StudyNest. All rights reserved.</p>
-  </div>
-</footer>
-
-<!-- Mobile sticky bar -->
-<div class="sticky-bar" id="stickyBar">
-  <img src="assets/icon.png" alt="" style="width:30px;height:30px;border-radius:7px;flex-shrink:0" onerror="this.outerHTML='🪺'" />
-  <span>StudyNest — Free Chrome Extension</span>
-  <a href="https://chromewebstore.google.com/detail/studynest-%E2%80%93-ai-study-plan/hekgdccoflelefibgbdhgmajaodmkgdl" target="_blank" rel="noopener" class="btn btn-primary" style="flex-shrink:0">Install Free</a>
-</div>
-
-<script src="script.js"></script>
 </body>
 </html>
